@@ -48,6 +48,7 @@ def readFileAndReturnOrderedWordCounts(filename):
         for l in line:
             # on a un souci avec les caractères spéciaux, par exemple 'ç'
             # 'ç'.isalpha() renvoie false!! (le fichier et mon os sont en utf-8
+            # locale fr
             if(l.isalpha()):
                 w += l.lower()
             else:
@@ -68,14 +69,8 @@ def print_words(filename):
 
 def print_top(filename):
     dico = readFileAndReturnOrderedWordCounts(filename)
-    n = 0
-    for elem in dico:
-        n += 1
+    for elem in dico[:20]:
         print(elem[0] + " " + str(elem[1]))
-        if(n == 20):
-            break
-
-
 
 import sys
 
