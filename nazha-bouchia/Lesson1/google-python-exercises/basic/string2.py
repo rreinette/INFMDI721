@@ -6,6 +6,8 @@
 # Google's Python Class
 # http://code.google.com/edu/languages/google-python-class/
 
+import math
+
 # Additional basic string exercises
 
 # D. verbing
@@ -16,8 +18,11 @@
 # If the string length is less than 3, leave it unchanged.
 # Return the resulting string.
 def verbing(s):
-  # +++your code here+++
-  return
+  verbing_word = s
+  if(len(s)>3) :
+      if(s[-3:] == 'ing'): verbing_word += 'ly'
+      else: verbing_word += 'ing'
+  return verbing_word
 
 
 # E. not_bad
@@ -29,8 +34,11 @@ def verbing(s):
 # So 'This dinner is not that bad!' yields:
 # This dinner is good!
 def not_bad(s):
-  # +++your code here+++
-  return
+  first_not = s.find('not')
+  first_bad = s.find('bad')
+  if(first_bad > first_not) :
+      return s[:first_not] + 'good' + s[first_bad+3:]
+  return s
 
 
 # F. front_back
@@ -41,8 +49,9 @@ def not_bad(s):
 # Given 2 strings, a and b, return a string of the form
 #  a-front + b-front + a-back + b-back
 def front_back(a, b):
-  # +++your code here+++
-  return
+  len_a = int(math.ceil(len(a)/float(2)))
+  len_b = int(math.ceil(len(b)/float(2)))
+  return a[:len_a]+b[:len_b]+a[len_a:]+b[len_b:]
 
 
 # Simple provided test() function used in main() to print
