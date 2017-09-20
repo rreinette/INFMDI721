@@ -64,9 +64,8 @@ def front_x(words):
 # [(2, 2), (1, 3), (3, 4, 5), (1, 7)]
 # Hint: use a custom key= function to extract the last element form each tuple.
 def sort_last(tuples):
-  def get_key(element):
-  	return element[-1]
-  return sorted(tuples, key=get_key)
+  tuples.sort(key=lambda el : el[-1])
+  return tuples
 
 
 # Simple provided test() function used in main() to print
