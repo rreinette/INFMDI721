@@ -1,6 +1,4 @@
 #!/usr/bin/python -tt
-# -*- coding: utf-8 -*-
-
 # Copyright 2010 Google Inc.
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
@@ -39,40 +37,9 @@ print_words() and print_top().
 
 """
 
-
-def readFileAndReturnOrderedWordCounts(filename):
-    f = open(filename, "rU")
-    dico = {}
-    for line in f:
-        w = ""
-        for l in line:
-            # on a un souci avec les caractères spéciaux, par exemple 'ç'
-            # 'ç'.isalpha() renvoie false!! (le fichier et mon os sont en utf-8
-            # locale fr
-            if(l.isalpha()):
-                w += l.lower()
-            else:
-                if(len(w) > 0):
-                    if(w in dico):
-                        dico[w] += 1
-                    else:
-                        dico[w] = 1
-                    w = ""
-    return sorted(dico.items(), key=lambda s: int(s[1]), reverse=True)
-
-
-def print_words(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico:
-        print(elem[0] + " " + str(elem[1]))
-
-
-def print_top(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico[:20]:
-        print(elem[0] + " " + str(elem[1]))
-
 import sys
+import operator
+
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
@@ -80,24 +47,54 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
-###
+def utility(filename):
+    f = open(filename, 'r')
+    text = f.read().lower().split()
+
+    wordcount = dict()
+
+    for word in text:
+        if word not in wordcount.keys():
+            wordcount[word] = 0
+        wordcount[word] += 1
+    return wordcount
+
+
+def print_words(filename):
+    wordcount_dict = utility(filename)
+    for key in sorted(wordcount_dict.keys()):
+        print(key + ' ' + str(wordcount_dict[key]))
+    return
+
+def print_top(filename):
+    wordcount_dict = utility(filename)
+    sorted_wordcount = sorted(wordcount_dict.items(), key=operator.itemgetter(1), reverse=True)
+    lim = len(wordcount_dict)
+    if len(wordcount_dict) > 20:
+        lim = 20
+    for i in range(lim):
+        word, count = sorted_wordcount[i]
+        print(word + ' ' + str(count))
+    return
+
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 def main():
-  if len(sys.argv) != 3:
-    print 'usage: ./wordcount.py {--count | --topcount} file'
-    sys.exit(1)
+    if len(sys.argv) != 3:
+        print('usage: ./wordcount.py {--count | --topcount} file')
+        sys.exit(1)
 
-  option = sys.argv[1]
-  filename = sys.argv[2]
-  if option == '--count':
-    print_words(filename)
-  elif option == '--topcount':
-    print_top(filename)
-  else:
-    print 'unknown option: ' + option
-    sys.exit(1)
+    option = sys.argv[1]
+    filename = sys.argv[2]
+    if option == '--count':
+        print_words(filename)
+    elif option == '--topcount':
+        print_top(filename)
+    else:
+        print('unknown option: ' + option)
+        sys.exit(1)
+
 
 if __name__ == '__main__':
-  main()
+    main()
