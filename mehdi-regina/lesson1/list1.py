@@ -21,13 +21,14 @@
 # and last chars of the string are the same.
 # Note: python does not have a ++ operator, but += works.
 def match_ends(words):
-    count = 0
-    for word in words:
-       if len(word)>= 2 and word[0] == word[-1]:
-           count += 1         
-    return count
+  # +++your code here+++
+  count=0
+  for word in words :
+      if(len(word)>=2 and word[0]==word[-1]):
+          count+=1
+      
+  return count
 
- 
 
 # B. front_x
 # Given a list of strings, return a list with the strings
@@ -37,20 +38,18 @@ def match_ends(words):
 # Hint: this can be done by making 2 lists and sorting each of them
 # before combining them.
 def front_x(words):
-    l1=[]
-    l2=[]
-   
-    for word in words:
-        if word[0] == 'x':
-            l1.append(word)
-        else:
-            l2.append(word)
-    l2.sort(key=str)    
-    l1.sort(key=str)
-    l1.extend(l2)
-    return l1
+  # +++your code here+++
+  x_words=[]
+  notx_words=[]
+  for word in words:
+      if word.startswith("x"):
+          x_words.append(word)
+      else:
+          notx_words.append(word)
+  sorted(x_words, key=lambda word:word[1:])
+  sorted(notx_words)
     
-
+  return x_words+notx_words
 
 
 
@@ -61,12 +60,10 @@ def front_x(words):
 # [(2, 2), (1, 3), (3, 4, 5), (1, 7)]
 # Hint: use a custom key= function to extract the last element form each tuple.
 def sort_last(tuples):
-  
-   if len(tuples) > 0:
-       tuples.sort(key = lambda x : x[1])
-       return tuples
-   else:
-        print("la liste est vide")
+  # +++your code here+++
+  #necessaire d'utiliser la clé pour pointer sur quoi le tri est effectue
+  #rappel fonction lambda
+  return sorted(tuples, key= lambda tuple_a_trier:tuple_a_trier[-1])
 
 
 # Simple provided test() function used in main() to print
@@ -75,18 +72,18 @@ def test(got, expected):
   if got == expected:
     prefix = ' OK '
   else:
-    prefix = '  X '
-  print (('%s got: %s expected: %s') % (prefix, repr(got), repr(expected)))
+    prefix = '  NOO '
+  print ('{0} got: {1} expected: {2}'.format(prefix,got,expected))
 
 
 # Calls the above functions with interesting inputs.
 def main():
-  print ('match_end')
+  print ('match_ends')
   test(match_ends(['aba', 'xyz', 'aa', 'x', 'bbb']), 3)
   test(match_ends(['', 'x', 'xy', 'xyx', 'xx']), 2)
   test(match_ends(['aaa', 'be', 'abc', 'hello']), 1)
 
-  print
+  print("\n")
   print ('front_x')
   test(front_x(['bbb', 'ccc', 'axx', 'xzz', 'xaa']),
        ['xaa', 'xzz', 'axx', 'bbb', 'ccc'])
@@ -96,7 +93,7 @@ def main():
        ['xanadu', 'xyz', 'aardvark', 'apple', 'mix'])
 
        
-  print
+  print ("\n")
   print ('sort_last')
   test(sort_last([(1, 3), (3, 2), (2, 1)]),
        [(2, 1), (3, 2), (1, 3)])

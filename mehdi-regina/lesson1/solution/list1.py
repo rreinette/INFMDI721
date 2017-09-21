@@ -21,13 +21,17 @@
 # and last chars of the string are the same.
 # Note: python does not have a ++ operator, but += works.
 def match_ends(words):
-    count = 0
-    for word in words:
-       if len(word)>= 2 and word[0] == word[-1]:
-           count += 1         
-    return count
+  # +++your code here+++
+  # LAB(begin solution)
+  count = 0
+  for word in words:
+    if len(word) >= 2 and word[0] == word[-1]:
+      count = count + 1
+  return count
+  # LAB(replace solution)
+  # return
+  # LAB(end solution)
 
- 
 
 # B. front_x
 # Given a list of strings, return a list with the strings
@@ -37,22 +41,27 @@ def match_ends(words):
 # Hint: this can be done by making 2 lists and sorting each of them
 # before combining them.
 def front_x(words):
-    l1=[]
-    l2=[]
-   
-    for word in words:
-        if word[0] == 'x':
-            l1.append(word)
-        else:
-            l2.append(word)
-    l2.sort(key=str)    
-    l1.sort(key=str)
-    l1.extend(l2)
-    return l1
-    
+  # +++your code here+++
+  # LAB(begin solution)
+  # Put each word into the x_list or the other_list.
+  x_list = []
+  other_list = []
+  for w in words:
+    if w.startswith('x'):
+      x_list.append(w)
+    else:
+      other_list.append(w)
+  return sorted(x_list) + sorted(other_list)
+  # LAB(replace solution)
+  # return
+  # LAB(end solution)
 
 
-
+# LAB(begin solution)
+# Extract the last element from a tuple -- used for custom sorting below.
+def last(a):
+  return a[-1]
+# LAB(end solution)
 
 # C. sort_last
 # Given a list of non-empty tuples, return a list sorted in increasing
@@ -61,12 +70,12 @@ def front_x(words):
 # [(2, 2), (1, 3), (3, 4, 5), (1, 7)]
 # Hint: use a custom key= function to extract the last element form each tuple.
 def sort_last(tuples):
-  
-   if len(tuples) > 0:
-       tuples.sort(key = lambda x : x[1])
-       return tuples
-   else:
-        print("la liste est vide")
+  # +++your code here+++
+  # LAB(begin solution)
+  return sorted(tuples, key=last)
+  # LAB(replace solution)
+  # return
+  # LAB(end solution)
 
 
 # Simple provided test() function used in main() to print
@@ -76,18 +85,18 @@ def test(got, expected):
     prefix = ' OK '
   else:
     prefix = '  X '
-  print (('%s got: %s expected: %s') % (prefix, repr(got), repr(expected)))
+  print '%s got: %s expected: %s' % (prefix, repr(got), repr(expected))
 
 
 # Calls the above functions with interesting inputs.
 def main():
-  print ('match_end')
+  print 'match_ends'
   test(match_ends(['aba', 'xyz', 'aa', 'x', 'bbb']), 3)
   test(match_ends(['', 'x', 'xy', 'xyx', 'xx']), 2)
   test(match_ends(['aaa', 'be', 'abc', 'hello']), 1)
 
   print
-  print ('front_x')
+  print 'front_x'
   test(front_x(['bbb', 'ccc', 'axx', 'xzz', 'xaa']),
        ['xaa', 'xzz', 'axx', 'bbb', 'ccc'])
   test(front_x(['ccc', 'bbb', 'aaa', 'xcc', 'xaa']),
@@ -97,7 +106,7 @@ def main():
 
        
   print
-  print ('sort_last')
+  print 'sort_last'
   test(sort_last([(1, 3), (3, 2), (2, 1)]),
        [(2, 1), (3, 2), (1, 3)])
   test(sort_last([(2, 3), (1, 2), (3, 1)]),
