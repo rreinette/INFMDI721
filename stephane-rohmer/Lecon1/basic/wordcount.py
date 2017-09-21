@@ -1,6 +1,4 @@
 #!/usr/bin/python -tt
-# -*- coding: utf-8 -*-
-
 # Copyright 2010 Google Inc.
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
@@ -39,40 +37,55 @@ print_words() and print_top().
 
 """
 
+import sys
 
-def readFileAndReturnOrderedWordCounts(filename):
-    f = open(filename, "rU")
-    dico = {}
-    for line in f:
-        w = ""
-        for l in line:
-            # on a un souci avec les caractères spéciaux, par exemple 'ç'
-            # 'ç'.isalpha() renvoie false!! (le fichier et mon os sont en utf-8
-            # locale fr
-            if(l.isalpha()):
-                w += l.lower()
-            else:
-                if(len(w) > 0):
-                    if(w in dico):
-                        dico[w] += 1
-                    else:
-                        dico[w] = 1
-                    w = ""
-    return sorted(dico.items(), key=lambda s: int(s[1]), reverse=True)
+# fonction helper opens a file, and return a dictionary of the word in lower case and its occurence in the file 
+
+def helper(filename):
+  with open(filename) as f:
+    read_data =  f.read()
+  f.closed  
+    
+  inventaireMot = read_data.split()       # creer la liste de chaque mot du texte pour utiliser 
+                                          # les fonctions de listes
+  dict_mot = {'':0}                       # initialise le dictionnaire
+    
+  for word in inventaireMot:              # populate the dictionnary 
+   if word.lower() not in dict_mot:
+     dict_mot[word.lower()]=inventaireMot.count(word)
+
+  return dict_mot
 
 
 def print_words(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico:
-        print(elem[0] + " " + str(elem[1]))
+
+  dict_mot = helper(filename)
+
+  for item in sorted(dict_mot):           # parse mot 1 a 1 dans le dictionnaire dans l'ordre alphabétique
+    print (item," ",dict_mot[item])       # pour chaque mot dans l'ordre alfabetique, affiche son occurence
+
+  return dict_mot
 
 
 def print_top(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico[:20]:
-        print(elem[0] + " " + str(elem[1]))
+  dict_mot = helper(filename)
+  top_word_dict = {}
 
-import sys
+  biggest_occurence_list = sorted(dict_mot.values(), reverse = True)[:20]
+                                        # crée une liste avec les 20 plus grandes valeurs dans le dictionnaire de mot
+  
+  for k,v in dict_mot.items():          # creer un dictionnaire tempon pour stoker les mots/occurences des 20 élément
+    if v in biggest_occurence_list:
+      top_word_dict[k]=v
+
+  print (top_word_dict)
+
+  for i in range(20):                   # a optimiser, on balaye 20x le dictionnaire de 20 mots...
+    for k,v in top_word_dict.items():   # scan le dictionnaire de mot. si la valeur correspond à la valeur de la liste 
+      if v == biggest_occurence_list[i]:  # ordonné, alors fait l'affichage
+        print (k,v)
+  
+  return
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
@@ -86,7 +99,7 @@ import sys
 # calls the print_words() and print_top() functions which you must define.
 def main():
   if len(sys.argv) != 3:
-    print 'usage: ./wordcount.py {--count | --topcount} file'
+    print ('usage: ./wordcount.py {--count | --topcount} file')
     sys.exit(1)
 
   option = sys.argv[1]
@@ -96,7 +109,7 @@ def main():
   elif option == '--topcount':
     print_top(filename)
   else:
-    print 'unknown option: ' + option
+    print ('unknown option: ' + option)
     sys.exit(1)
 
 if __name__ == '__main__':

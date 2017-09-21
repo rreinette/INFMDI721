@@ -38,6 +38,8 @@ print_words() and print_top().
 """
 
 import sys
+import operator
+
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
@@ -45,41 +47,39 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
-###
+def utility(filename):
+    f = open(filename, 'r')
+    text = f.read().lower().split()
 
+    wordcount = dict()
 
-def read_file(filename):
-    f = open(filename)
-    text = f.read()
-    word_count = {}
-
-    for word in text.split():
-        if word.lower() in word_count:
-            word_count[word.lower()] += 1
-        else:
-            word_count[word.lower()] = 1
-    f.close()
-    return word_count
+    for word in text:
+        if word not in wordcount.keys():
+            wordcount[word] = 0
+        wordcount[word] += 1
+    return wordcount
 
 
 def print_words(filename):
-    word_list = sorted(read_file(filename).items())
-
-    for word_tuple in word_list:
-        print(word_tuple[0] + " " + str(word_tuple[1]))
-
+    wordcount_dict = utility(filename)
+    for key in sorted(wordcount_dict.keys()):
+        print(key + ' ' + str(wordcount_dict[key]))
+    return
 
 def print_top(filename):
-    word_list = sorted(read_file(filename).items(),
-                       key=lambda x: (-1*int(x[1]), x[0]))
+    wordcount_dict = utility(filename)
+    sorted_wordcount = sorted(wordcount_dict.items(), key=operator.itemgetter(1), reverse=True)
+    lim = len(wordcount_dict)
+    if len(wordcount_dict) > 20:
+        lim = 20
+    for i in range(lim):
+        word, count = sorted_wordcount[i]
+        print(word + ' ' + str(count))
+    return
 
-    for word_tuple in word_list[:20]:
-        print(word_tuple[0] + " " + str(word_tuple[1]))
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
-
-
 def main():
     if len(sys.argv) != 3:
         print('usage: ./wordcount.py {--count | --topcount} file')
@@ -87,7 +87,6 @@ def main():
 
     option = sys.argv[1]
     filename = sys.argv[2]
-
     if option == '--count':
         print_words(filename)
     elif option == '--topcount':
