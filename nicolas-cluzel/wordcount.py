@@ -38,6 +38,10 @@ print_words() and print_top().
 """
 
 import sys
+from collections import Counter
+from collections import OrderedDict
+from operator import itemgetter
+import itertools
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
@@ -45,43 +49,37 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
-###
-def read_and_split(filename):
-    with open(filename) as f:
-        datas = f.read()
-    f.closed
-    return datas.split();
-
-def count_words(filename):
-    datas = read_and_split(filename)
-    count_words = dict()
-    for d in datas:
-        count = 0
-        if d.lower() in count_words:
-            count = count_words[d.lower()]
-        count_words[d.lower()] = count + 1
-    return count_words    
-
-def print_words(filename):
-    words_count = count_words(filename)
-
-    for key in sorted(words_count.keys()) :
-        print(key, words_count[key])
-
+def read_and_count_file1(file):
+    file_content = open(file, "r")
+    count = Counter(file_content.read().lower().split())
+    return count
     
-def print_top(filename):
-    words_count = count_words(filename)
-    words_count_reverted = sorted(words_count.items(), key=lambda x: x[1], reverse=True)
+    
+#def print_words2(file):
+#    countDict = read_and_count_file1(file)
+ #   for word, count in countDict.items():
+  #      print (word, count)
 
-    for w in words_count_reverted[:20]:
-        print(w[0])
+def print_words(file):
+    countDict = read_and_count_file1(file)
+    orderedCountDict = OrderedDict(sorted(countDict.items()))
+    for word, count in orderedCountDict.items():
+        print (word, count)
+        
+def print_top(file):
+    countDict = read_and_count_file1(file)
+    orderedCountDict = OrderedDict(reversed(sorted(countDict.items(), key = itemgetter(1))))
+    firstTwenty = itertools.islice(orderedCountDict.items(), 0, 20)
+    for word, count in firstTwenty:
+        print (word, count)
 
+###
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 def main():
   if len(sys.argv) != 3:
-    print 'usage: ./wordcount.py {--count | --topcount} file'
+    print ('usage: ./wordcount.py {--count | --topcount} file')
     sys.exit(1)
 
   option = sys.argv[1]
@@ -91,8 +89,10 @@ def main():
   elif option == '--topcount':
     print_top(filename)
   else:
-    print 'unknown option: ' + option
+    print ('unknown option: ' + option)
     sys.exit(1)
-
+  #print(read_and_count_file1("/Users/cluclu/Documents/Python-MDI721/google-python-exercises/basic/small2.txt"))  
+  #print_top("/Users/cluclu/Documents/Python-MDI721/google-python-exercises/basic/small2.txt")
+  
 if __name__ == '__main__':
   main()
