@@ -60,7 +60,6 @@ def print_words(filename):
 def print_top(filename):
     d=helper(filename)
     i=0
-    sorted(d.items() ,key=operator.itemgetter(1), reverse=True)
     for w in sorted(d.items() ,key=operator.itemgetter(1), reverse=True):
         if i < 20:
             print(str(w[0])+' '+str(w[1]))
