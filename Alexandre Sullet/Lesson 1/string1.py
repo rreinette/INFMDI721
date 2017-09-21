@@ -39,7 +39,7 @@ def both_ends(s):
     if len(s) < 2 :
         return ''
     else :
-        return s[0] + s[1] + s[-2] + s[-1]
+        return s[:2] + s[-2:]
 
 
 # C. fix_start
@@ -63,7 +63,7 @@ def fix_start(s):
 #   'dog', 'dinner' -> 'dig donner'
 # Assume a and b are length 2 or more.
 def mix_up(a, b):
-  return b[0:2] + a[2:] + ' ' + a[0:2] + b[2:]
+  return b[:2] + a[2:] + ' ' + a[:2] + b[2:]
 
 
 # Provided simple test() function used in main() to print
