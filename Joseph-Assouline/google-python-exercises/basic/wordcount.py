@@ -38,6 +38,38 @@ print_words() and print_top().
 """
 
 import sys
+import operator
+
+def helper(filename):
+    wordcount=dict()
+    f=open(filename)
+    read_data=f.read()
+    txt=list(read_data.lower().split())
+    for word in txt:
+        if word in wordcount:
+            wordcount[word]+=1
+        else:
+            wordcount[word]=1
+    return wordcount
+
+def print_words(filename):
+    d=helper(filename)
+    for w in sorted(d.items() ,key=operator.itemgetter(1), reverse=True):
+        print(str(w[0])+' '+str(w[1]))
+
+def print_top(filename):
+    d=helper(filename)
+    i=0
+    sorted(d.items() ,key=operator.itemgetter(1), reverse=True)
+    for w in sorted(d.items() ,key=operator.itemgetter(1), reverse=True):
+        if i < 20:
+            print(str(w[0])+' '+str(w[1]))
+            i+=1
+        else:
+            break
+
+#print(print_top('alice.txt'))
+        
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
@@ -51,7 +83,7 @@ import sys
 # calls the print_words() and print_top() functions which you must define.
 def main():
   if len(sys.argv) != 3:
-    print 'usage: ./wordcount.py {--count | --topcount} file'
+    print ('usage: ./wordcount.py {--count | --topcount} file')
     sys.exit(1)
 
   option = sys.argv[1]
@@ -61,7 +93,7 @@ def main():
   elif option == '--topcount':
     print_top(filename)
   else:
-    print 'unknown option: ' + option
+    print ('unknown option: ') + option
     sys.exit(1)
 
 if __name__ == '__main__':
