@@ -39,6 +39,35 @@ print_words() and print_top().
 
 import sys
 
+def print_words(filename) : 
+  words_occ = read_file_and_load_dic(filename)
+  ordered_words = sorted (words_occ.items(), key = lambda t:t[0])
+  for (word, count) in ordered_words : 
+    print (word+" "+str(count)+"\n")
+  
+
+def print_top(filename) :
+  words_occ =  read_file_and_load_dic(filename)
+  ordered_words = sorted(words_occ.items(), key= lambda t:t[1])
+  for (word,count)in ordered_words[:20] :
+    print (word+" "+str(count)+"\n") 
+
+
+def read_file_and_load_dic(filename):
+
+
+  word_occ ={}
+  with open(filename,"r") as f:
+    for line in f.readlines() : 
+      for word in line.split(" ") :
+        new_word = word.strip().lower() 
+        if new_word in word_occ : 
+          word_occ[new_word]+=1
+        else : 
+          word_occ[new_word] = 1
+  return word_occ
+
+
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
 # You could write a helper utility function that reads a file
@@ -46,36 +75,6 @@ import sys
 # Then print_words() and print_top() can just call the utility function.
 
 ###
-def read_and_split(filename):
-    with open(filename) as f:
-        datas = f.read()
-    f.closed
-    return datas.split();
-
-def count_words(filename):
-    datas = read_and_split(filename)
-    count_words = dict()
-    for d in datas:
-        count = 0
-        if d.lower() in count_words:
-            count = count_words[d.lower()]
-        count_words[d.lower()] = count + 1
-    return count_words    
-
-def print_words(filename):
-    words_count = count_words(filename)
-
-    for key in sorted(words_count.keys()) :
-        print(key, words_count[key])
-
-    
-def print_top(filename):
-    words_count = count_words(filename)
-    words_count_reverted = sorted(words_count.items(), key=lambda x: x[1], reverse=True)
-
-    for w in words_count_reverted[:20]:
-        print(w[0])
-
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.

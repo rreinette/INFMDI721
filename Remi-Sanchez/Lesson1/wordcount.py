@@ -45,37 +45,41 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
-###
-def read_and_split(filename):
-    with open(filename) as f:
-        datas = f.read()
-    f.closed
-    return datas.split();
 
-def count_words(filename):
-    datas = read_and_split(filename)
-    count_words = dict()
-    for d in datas:
-        count = 0
-        if d.lower() in count_words:
-            count = count_words[d.lower()]
-        count_words[d.lower()] = count + 1
-    return count_words    
+def getWordsInFile(filename):
+  wordsDict = {}
+  f = open(filename, 'rU')
+  for line in f:
+    wordsInLine = line.lower().split()
+    for w in wordsInLine:
+      if w in wordsDict:
+        wordsDict[w] += 1
+      else:
+        wordsDict[w] = 1
+
+  f.close()
+  return wordsDict
+
+
 
 def print_words(filename):
-    words_count = count_words(filename)
+  words = getWordsInFile(filename)
+  for w in sorted(words.keys()):
+    print w, words[w]
+  
+def count(wordEntry):
+  return wordEntry[1]
 
-    for key in sorted(words_count.keys()) :
-        print(key, words_count[key])
-
-    
 def print_top(filename):
-    words_count = count_words(filename)
-    words_count_reverted = sorted(words_count.items(), key=lambda x: x[1], reverse=True)
+  words = getWordsInFile(filename)
+  topwords = sorted(words.items(), key = count, reverse = True)
+  for wordEntry in topwords[:20]:
+    print wordEntry[0], wordEntry[1]
 
-    for w in words_count_reverted[:20]:
-        print(w[0])
 
+
+
+###
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
