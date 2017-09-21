@@ -70,9 +70,7 @@ def fix_start(s):
 # Assume a and b are length 2 or more.
 def mix_up(a, b):
     if(len(a)>=2 and len(b)>=2):
-        s1 = b[:2]+a[2:]
-        s2 = a[:2]+b[2:]
-        return s1 + ' ' + s2
+        return b[:2]+a[2:] + ' ' + a[:2]+b[2:]
     else:
         return ''
 
