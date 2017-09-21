@@ -45,10 +45,9 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
-#### LAB(begin solution)
 
 def word_count_dict(filename):
-  word_count = {}  
+  word_count = {} 
   input_file = open(filename, 'r')
   for line in input_file:
     words = line.split()
@@ -58,7 +57,7 @@ def word_count_dict(filename):
         word_count[word] = 1
       else:
         word_count[word] = word_count[word] + 1
-  input_file.close() 
+  input_file.close()  
   return word_count
 
 
@@ -75,16 +74,9 @@ def get_count(word_count_tuple):
 
 def print_top(filename):
   word_count = word_count_dict(filename)
-
-  # Each item is a (word, count) tuple.
-  # Sort them so the big counts are first using key=get_count() to extract count.
   items = sorted(word_count.items(), key=get_count, reverse=True)
-
-  # Print the first 20
   for item in items[:20]:
     print item[0], item[1]
-
-##### LAB(end solution)
 
 
 # This basic command line argument parsing code is provided and

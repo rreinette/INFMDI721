@@ -24,15 +24,10 @@
 # So donuts(5) returns 'Number of donuts: 5'
 # and donuts(23) returns 'Number of donuts: many'
 def donuts(count):
-  # +++your code here+++
-  # LAB(begin solution)
   if count < 10:
     return 'Number of donuts: ' + str(count)
   else:
     return 'Number of donuts: many'
-  # LAB(replace solution)
-  # return
-  # LAB(end solution)
 
 
 # B. both_ends
@@ -91,8 +86,7 @@ def mix_up(a, b):
 
   output = fixed_a + ' ' + fixed_b
 
-  return output
-
+return output
 
 
 # Provided simple test() function used in main() to print
