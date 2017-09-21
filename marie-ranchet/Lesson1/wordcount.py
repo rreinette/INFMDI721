@@ -38,22 +38,15 @@ print_words() and print_top().
 """
 
 import sys
-
-# def count_words(string):
-#     dict = {}
-#     string = string.replace("\n", "").lower()
-#     for word in string.split(" "):
-#         if word not in dict:
-#             dict[word] = 1
-#         else:
-#             dict[word] += 1
-#     return dict
+import string
 
 def read_file(filename):
-    with open(filename) as f:
+    with open(filename, "r", encoding="utf-8-sig") as f:
         dict = {}
         for line in f:
             line = line.replace("\n", "").lower()
+            for elt in string.punctuation:
+                line = line.replace (elt, "")
             for word in line.split():
                 if word not in dict:
                     dict[word] = 1
