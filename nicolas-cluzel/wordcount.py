@@ -1,6 +1,4 @@
 #!/usr/bin/python -tt
-# -*- coding: utf-8 -*-
-
 # Copyright 2010 Google Inc.
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
@@ -39,40 +37,11 @@ print_words() and print_top().
 
 """
 
-
-def readFileAndReturnOrderedWordCounts(filename):
-    f = open(filename, "rU")
-    dico = {}
-    for line in f:
-        w = ""
-        for l in line:
-            # on a un souci avec les caractères spéciaux, par exemple 'ç'
-            # 'ç'.isalpha() renvoie false!! (le fichier et mon os sont en utf-8
-            # locale fr
-            if(l.isalpha()):
-                w += l.lower()
-            else:
-                if(len(w) > 0):
-                    if(w in dico):
-                        dico[w] += 1
-                    else:
-                        dico[w] = 1
-                    w = ""
-    return sorted(dico.items(), key=lambda s: int(s[1]), reverse=True)
-
-
-def print_words(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico:
-        print(elem[0] + " " + str(elem[1]))
-
-
-def print_top(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico[:20]:
-        print(elem[0] + " " + str(elem[1]))
-
 import sys
+from collections import Counter
+from collections import OrderedDict
+from operator import itemgetter
+import itertools
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
@@ -80,13 +49,37 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
+def read_and_count_file1(file):
+    file_content = open(file, "r")
+    count = Counter(file_content.read().lower().split())
+    return count
+    
+    
+#def print_words2(file):
+#    countDict = read_and_count_file1(file)
+ #   for word, count in countDict.items():
+  #      print (word, count)
+
+def print_words(file):
+    countDict = read_and_count_file1(file)
+    orderedCountDict = OrderedDict(sorted(countDict.items()))
+    for word, count in orderedCountDict.items():
+        print (word, count)
+        
+def print_top(file):
+    countDict = read_and_count_file1(file)
+    orderedCountDict = OrderedDict(reversed(sorted(countDict.items(), key = itemgetter(1))))
+    firstTwenty = itertools.islice(orderedCountDict.items(), 0, 20)
+    for word, count in firstTwenty:
+        print (word, count)
+
 ###
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 def main():
   if len(sys.argv) != 3:
-    print 'usage: ./wordcount.py {--count | --topcount} file'
+    print ('usage: ./wordcount.py {--count | --topcount} file')
     sys.exit(1)
 
   option = sys.argv[1]
@@ -96,8 +89,10 @@ def main():
   elif option == '--topcount':
     print_top(filename)
   else:
-    print 'unknown option: ' + option
+    print ('unknown option: ' + option)
     sys.exit(1)
-
+  #print(read_and_count_file1("/Users/cluclu/Documents/Python-MDI721/google-python-exercises/basic/small2.txt"))  
+  #print_top("/Users/cluclu/Documents/Python-MDI721/google-python-exercises/basic/small2.txt")
+  
 if __name__ == '__main__':
   main()

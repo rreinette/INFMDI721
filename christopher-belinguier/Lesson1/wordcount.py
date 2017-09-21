@@ -1,6 +1,4 @@
 #!/usr/bin/python -tt
-# -*- coding: utf-8 -*-
-
 # Copyright 2010 Google Inc.
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
@@ -39,39 +37,6 @@ print_words() and print_top().
 
 """
 
-
-def readFileAndReturnOrderedWordCounts(filename):
-    f = open(filename, "rU")
-    dico = {}
-    for line in f:
-        w = ""
-        for l in line:
-            # on a un souci avec les caractères spéciaux, par exemple 'ç'
-            # 'ç'.isalpha() renvoie false!! (le fichier et mon os sont en utf-8
-            # locale fr
-            if(l.isalpha()):
-                w += l.lower()
-            else:
-                if(len(w) > 0):
-                    if(w in dico):
-                        dico[w] += 1
-                    else:
-                        dico[w] = 1
-                    w = ""
-    return sorted(dico.items(), key=lambda s: int(s[1]), reverse=True)
-
-
-def print_words(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico:
-        print(elem[0] + " " + str(elem[1]))
-
-
-def print_top(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico[:20]:
-        print(elem[0] + " " + str(elem[1]))
-
 import sys
 
 # +++your code here+++
@@ -80,15 +45,54 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
-###
+
+def word_count(filename):
+    """Function that counts how often each word appears in the text"""
+    dictionary = {}
+    file_object = open(filename, mode='r')
+    #lines = list(file_object)
+    for line in file_object:
+        words = line.split()
+        for w in words:
+          w = w.lower()
+          if w in dictionary:
+              dictionary[w] += 1
+          else:
+              dictionary[w] = 1
+    file_object.close()
+    return dictionary
+
+
+def print_words(filename):
+    """Function that counts how often each word appears in the text
+    and print the list in order sorted by word"""
+    dictionary = word_count(filename)
+    sorted_dictionary = sorted(dictionary.keys())
+    for word in sorted_dictionary:
+      print(word + " " + str(dictionary[word]))
+
+
+def get_value(word_count_tuple):
+    """Returns the count from a dict word/value tuple  -- used for custom sort."""
+    return word_count_tuple[1]
+
+
+
+def print_top(filename):
+    """Function that counts how often each word appears in the text
+    and print the top 20 most common words sorted"""
+    dictionary = word_count(filename)
+    sorted_items = sorted(dictionary.items(), key=get_value, reverse=True)
+    for item in sorted_items[:20]:
+      print item[0], item[1]
+
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 def main():
   if len(sys.argv) != 3:
-    print 'usage: ./wordcount.py {--count | --topcount} file'
+    print('usage: ./wordcount.py {--count | --topcount} file')
     sys.exit(1)
-
   option = sys.argv[1]
   filename = sys.argv[2]
   if option == '--count':
@@ -96,7 +100,7 @@ def main():
   elif option == '--topcount':
     print_top(filename)
   else:
-    print 'unknown option: ' + option
+    print('unknown option: ') + option
     sys.exit(1)
 
 if __name__ == '__main__':

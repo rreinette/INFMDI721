@@ -1,6 +1,4 @@
 #!/usr/bin/python -tt
-# -*- coding: utf-8 -*-
-
 # Copyright 2010 Google Inc.
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
@@ -39,39 +37,6 @@ print_words() and print_top().
 
 """
 
-
-def readFileAndReturnOrderedWordCounts(filename):
-    f = open(filename, "rU")
-    dico = {}
-    for line in f:
-        w = ""
-        for l in line:
-            # on a un souci avec les caractères spéciaux, par exemple 'ç'
-            # 'ç'.isalpha() renvoie false!! (le fichier et mon os sont en utf-8
-            # locale fr
-            if(l.isalpha()):
-                w += l.lower()
-            else:
-                if(len(w) > 0):
-                    if(w in dico):
-                        dico[w] += 1
-                    else:
-                        dico[w] = 1
-                    w = ""
-    return sorted(dico.items(), key=lambda s: int(s[1]), reverse=True)
-
-
-def print_words(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico:
-        print(elem[0] + " " + str(elem[1]))
-
-
-def print_top(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico[:20]:
-        print(elem[0] + " " + str(elem[1]))
-
 import sys
 
 # +++your code here+++
@@ -81,6 +46,36 @@ import sys
 # Then print_words() and print_top() can just call the utility function.
 
 ###
+def read_and_split(filename):
+    with open(filename) as f:
+        datas = f.read()
+    f.closed
+    return datas.split();
+
+def count_words(filename):
+    datas = read_and_split(filename)
+    count_words = dict()
+    for d in datas:
+        count = 0
+        if d.lower() in count_words:
+            count = count_words[d.lower()]
+        count_words[d.lower()] = count + 1
+    return count_words    
+
+def print_words(filename):
+    words_count = count_words(filename)
+
+    for key in sorted(words_count.keys()) :
+        print(key, words_count[key])
+
+    
+def print_top(filename):
+    words_count = count_words(filename)
+    words_count_reverted = sorted(words_count.items(), key=lambda x: x[1], reverse=True)
+
+    for w in words_count_reverted[:20]:
+        print(w[0])
+
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.

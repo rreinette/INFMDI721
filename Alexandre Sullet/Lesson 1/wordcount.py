@@ -1,6 +1,4 @@
 #!/usr/bin/python -tt
-# -*- coding: utf-8 -*-
-
 # Copyright 2010 Google Inc.
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
@@ -39,40 +37,42 @@ print_words() and print_top().
 
 """
 
+import sys
 
-def readFileAndReturnOrderedWordCounts(filename):
-    f = open(filename, "rU")
-    dico = {}
-    for line in f:
-        w = ""
-        for l in line:
-            # on a un souci avec les caractères spéciaux, par exemple 'ç'
-            # 'ç'.isalpha() renvoie false!! (le fichier et mon os sont en utf-8
-            # locale fr
-            if(l.isalpha()):
-                w += l.lower()
-            else:
-                if(len(w) > 0):
-                    if(w in dico):
-                        dico[w] += 1
-                    else:
-                        dico[w] = 1
-                    w = ""
-    return sorted(dico.items(), key=lambda s: int(s[1]), reverse=True)
+def read_file(filename):
+  dict_file = {}
+  input_file = open(filename, 'r')
+
+  for line in input_file:
+    words = line.split()
+    for word in words:
+      word = word.lower()
+      if not word in dict_file:
+        dict_file[word] = 1
+      else:
+        dict_file[word] += 1
+  return dict_file
 
 
 def print_words(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico:
-        print(elem[0] + " " + str(elem[1]))
+  dict_words = read_file(filename)
+  words = sorted(dict_words.keys())
 
+  for word in words:
+    print(word, dict_words[word])
+
+def get_dict_count(dict):
+  return dict[1]
 
 def print_top(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico[:20]:
-        print(elem[0] + " " + str(elem[1]))
+    dict_words = read_file(filename)
+    words = sorted(dict_words.items(),key=get_dict_count,reverse=True)
 
-import sys
+    for word in words[:20]:
+        print(word[0],word[1])
+
+    return
+
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
@@ -86,7 +86,7 @@ import sys
 # calls the print_words() and print_top() functions which you must define.
 def main():
   if len(sys.argv) != 3:
-    print 'usage: ./wordcount.py {--count | --topcount} file'
+    print('usage: ./wordcount.py {--count | --topcount} file')
     sys.exit(1)
 
   option = sys.argv[1]
@@ -96,7 +96,7 @@ def main():
   elif option == '--topcount':
     print_top(filename)
   else:
-    print 'unknown option: ' + option
+    print('unknown option: ' + option)
     sys.exit(1)
 
 if __name__ == '__main__':
