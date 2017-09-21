@@ -38,51 +38,45 @@ print_words() and print_top().
 """
 
 import sys
-import operator
-
-def helper(filename):
-    wordcount=dict()
-    f=open(filename)
-    read_data=f.read()
-    txt=list(read_data.lower().split())
-    for word in txt:
-        if word in wordcount:
-            wordcount[word]+=1
-        else:
-            wordcount[word]=1
-    return wordcount
-
-def print_words(filename):
-    d=helper(filename)
-    for w in sorted(d.items() ,key=operator.itemgetter(1), reverse=True):
-        print(str(w[0])+' '+str(w[1]))
-
-def print_top(filename):
-    d=helper(filename)
-    i=0
-    for w in sorted(d.items() ,key=operator.itemgetter(1), reverse=True):
-        if i < 20:
-            print(str(w[0])+' '+str(w[1]))
-            i+=1
-        else:
-            break
-
-#print(print_top('alice.txt'))
-        
+import re
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
 # You could write a helper utility function that reads a file
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
+def get_words(filename):
+    word_regexp = re.compile('\W+')
+    with open(filename) as file_contents:
+        text = file_contents.read().lower()
+    #print(word_regexp.split(text))
+    word_dict = dict()
+    for word in word_regexp.split(text):
+        if word in word_dict:
+            word_dict[word] += 1
+        else:
+            word_dict[word] = 1
+    return word_dict
 
+
+
+def print_words(filename):
+    word_dict = get_words(filename)
+    for word, count in sorted(word_dict.items(), key = lambda d: d[0]):
+        print("{} {}".format(word, count))
+
+
+def print_top(filename):
+    word_dict = get_words(filename)
+    for word, count in sorted(word_dict.items(), key = lambda d: d[1], reverse = True)[0:9]:
+        print("{} {}".format(word, count))
 ###
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 def main():
   if len(sys.argv) != 3:
-    print ('usage: ./wordcount.py {--count | --topcount} file')
+    print('usage: ./wordcount.py {--count | --topcount} file')
     sys.exit(1)
 
   option = sys.argv[1]
@@ -92,7 +86,7 @@ def main():
   elif option == '--topcount':
     print_top(filename)
   else:
-    print ('unknown option: ') + option
+    print('unknown option: ' + option)
     sys.exit(1)
 
 if __name__ == '__main__':
