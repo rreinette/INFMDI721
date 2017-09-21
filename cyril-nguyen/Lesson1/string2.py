@@ -6,9 +6,8 @@
 # Google's Python Class
 # http://code.google.com/edu/languages/google-python-class/
 
-import math
-
 # Additional basic string exercises
+
 
 # D. verbing
 # Given a string, if its length is at least 3,
@@ -18,11 +17,12 @@ import math
 # If the string length is less than 3, leave it unchanged.
 # Return the resulting string.
 def verbing(s):
-  verbing_word = s
-  if(len(s)>3) :
-      if(s[-3:] == 'ing'): verbing_word += 'ly'
-      else: verbing_word += 'ing'
-  return verbing_word
+    if len(s) >= 3:
+        if s.endswith("ing"):
+            return s + "ly"
+        else:
+            return s + "ing"
+    return s
 
 
 # E. not_bad
@@ -34,11 +34,10 @@ def verbing(s):
 # So 'This dinner is not that bad!' yields:
 # This dinner is good!
 def not_bad(s):
-  first_not = s.find('not')
-  first_bad = s.find('bad')
-  if(first_bad > first_not) :
-      return s[:first_not] + 'good' + s[first_bad+3:]
-  return s
+    if (s.find("not") != -1 and s.find("bad") != -1
+            and s.index("not") < s.index("bad")):
+        return s[:s.index("not")] + "good" + s[s.index("bad") + len("bad"):]
+    return s
 
 
 # F. front_back
@@ -49,41 +48,48 @@ def not_bad(s):
 # Given 2 strings, a and b, return a string of the form
 #  a-front + b-front + a-back + b-back
 def front_back(a, b):
-  len_a = int(math.ceil(len(a)/float(2)))
-  len_b = int(math.ceil(len(b)/float(2)))
-  return a[:len_a]+b[:len_b]+a[len_a:]+b[len_b:]
+    return get_front(a) + get_front(b) + get_back(a) + get_back(b)
+
+
+def get_front(s):
+    return s[:len(s) // 2 + len(s) % 2]
+
+
+def get_back(s):
+    return s[len(s) // 2 + len(s) % 2:]
 
 
 # Simple provided test() function used in main() to print
 # what each function returns vs. what it's supposed to return.
 def test(got, expected):
-  if got == expected:
-    prefix = ' OK '
-  else:
-    prefix = '  X '
-  print '%s got: %s expected: %s' % (prefix, repr(got), repr(expected))
+    if got == expected:
+        prefix = ' OK '
+    else:
+        prefix = '  X '
+    print('%s got: %s expected: %s' % (prefix, repr(got), repr(expected)))
 
 
 # main() calls the above functions with interesting inputs,
 # using the above test() to check if the result is correct or not.
 def main():
-  print 'verbing'
-  test(verbing('hail'), 'hailing')
-  test(verbing('swiming'), 'swimingly')
-  test(verbing('do'), 'do')
+    print('verbing')
+    test(verbing('hail'), 'hailing')
+    test(verbing('swiming'), 'swimingly')
+    test(verbing('do'), 'do')
 
-  print
-  print 'not_bad'
-  test(not_bad('This movie is not so bad'), 'This movie is good')
-  test(not_bad('This dinner is not that bad!'), 'This dinner is good!')
-  test(not_bad('This tea is not hot'), 'This tea is not hot')
-  test(not_bad("It's bad yet not"), "It's bad yet not")
+    print()
+    print('not_bad')
+    test(not_bad('This movie is not so bad'), 'This movie is good')
+    test(not_bad('This dinner is not that bad!'), 'This dinner is good!')
+    test(not_bad('This tea is not hot'), 'This tea is not hot')
+    test(not_bad("It's bad yet not"), "It's bad yet not")
 
-  print
-  print 'front_back'
-  test(front_back('abcd', 'xy'), 'abxcdy')
-  test(front_back('abcde', 'xyz'), 'abcxydez')
-  test(front_back('Kitten', 'Donut'), 'KitDontenut')
+    print()
+    print('front_back')
+    test(front_back('abcd', 'xy'), 'abxcdy')
+    test(front_back('abcde', 'xyz'), 'abcxydez')
+    test(front_back('Kitten', 'Donut'), 'KitDontenut')
+
 
 if __name__ == '__main__':
-  main()
+    main()

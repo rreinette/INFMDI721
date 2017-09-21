@@ -8,21 +8,19 @@
 
 # Additional basic list exercises
 
+
 # D. Given a list of numbers, return a list where
 # all adjacent == elements have been reduced to a single element,
 # so [1, 2, 2, 3] returns [1, 2, 3]. You may create a new list or
 # modify the passed in list.
 def remove_adjacent(nums):
-    if(len(nums) == 0):
-        return nums
-
-    current = nums[0]
-    remove_adjacent_lst = [current]
-    for num in nums[1:]:
-        if(num != current):
-            remove_adjacent_lst.append(num)
-            current = num
-    return remove_adjacent_lst
+    result = []
+    previous_element = None
+    for current_element in nums:
+        if current_element != previous_element:
+            result.append(current_element)
+        previous_element = current_element
+    return result
 
 
 # E. Given two lists sorted in increasing order, create and return a merged
@@ -30,20 +28,25 @@ def remove_adjacent(nums):
 # Ideally, the solution should work in "linear" time, making a single
 # pass of both lists.
 def linear_merge(list1, list2):
-  linear_merge_lst = []
-  l1pop = list1.pop()
-  l2pop = list2.pop()
-
-  while(l1pop != '' or l2pop != ''):
-      if(l1pop > l2pop):
-          linear_merge_lst.append(l1pop)
-          l1pop = list1.pop(-1) if len(list1) != 0 else ''
-      else:
-          linear_merge_lst.append(l2pop)
-          l2pop = list2.pop(-1) if len(list2) != 0 else ''
-             
-  linear_merge_lst.reverse()
-  return linear_merge_lst
+    i, j = 0, 0
+    result = []
+    while i <= len(list1) and j <= len(list2):
+        if i == len(list1):
+            for k in range(j, len(list2)):
+                result.append(list2[k])
+            break
+        elif j == len(list2):
+            for k in range(i, len(list1)):
+                result.append(list1[k])
+            break
+        else:
+            if list1[i] <= list2[j]:
+                result.append(list1[i])
+                i += 1
+            else:
+                result.append(list2[j])
+                j += 1
+    return result
 
 
 # Note: the solution above is kind of cute, but unforunately list.pop(0)
@@ -58,29 +61,29 @@ def linear_merge(list1, list2):
 # Simple provided test() function used in main() to print
 # what each function returns vs. what it's supposed to return.
 def test(got, expected):
-  if got == expected:
-    prefix = ' OK '
-  else:
-    prefix = '  X '
-  print '%s got: %s expected: %s' % (prefix, repr(got), repr(expected))
+    if got == expected:
+        prefix = ' OK '
+    else:
+        prefix = '  X '
+    print('%s got: %s expected: %s' % (prefix, repr(got), repr(expected)))
 
 
 # Calls the above functions with interesting inputs.
 def main():
-  print 'remove_adjacent'
-  test(remove_adjacent([1, 2, 2, 3]), [1, 2, 3])
-  test(remove_adjacent([2, 2, 3, 3, 3]), [2, 3])
-  test(remove_adjacent([1, 2, 2, 3, 3, 3, 4]), [1, 2, 3, 4])
-  test(remove_adjacent([]), [])
+    print('remove_adjacent')
+    test(remove_adjacent([1, 2, 2, 3]), [1, 2, 3])
+    test(remove_adjacent([2, 2, 3, 3, 3]), [2, 3])
+    test(remove_adjacent([]), [])
 
-  print
-  print 'linear_merge'
-  test(linear_merge(['aa', 'xx', 'zz'], ['bb', 'cc']),
-       ['aa', 'bb', 'cc', 'xx', 'zz'])
-  test(linear_merge(['aa', 'xx'], ['bb', 'cc', 'zz']),
-       ['aa', 'bb', 'cc', 'xx', 'zz'])
-  test(linear_merge(['aa', 'aa'], ['aa', 'bb', 'bb']),
-       ['aa', 'aa', 'aa', 'bb', 'bb'])
+    print()
+    print('linear_merge')
+    test(linear_merge(['aa', 'xx', 'zz'], ['bb', 'cc']),
+         ['aa', 'bb', 'cc', 'xx', 'zz'])
+    test(linear_merge(['aa', 'xx'], ['bb', 'cc', 'zz']),
+         ['aa', 'bb', 'cc', 'xx', 'zz'])
+    test(linear_merge(['aa', 'aa'], ['aa', 'bb', 'bb']),
+         ['aa', 'aa', 'aa', 'bb', 'bb'])
+
 
 if __name__ == '__main__':
-  main()
+    main()
