@@ -55,10 +55,11 @@ my_list.__len__()
 my_list.append(0)
 my_list.count(1)
 my_list.reverse()
-my_list.insert(5, 1)
-my_list.pop(5)  # index
+my_list.insert(5, 1)  # index, value
+my_list.pop(5)  # index - returns the corresponding value
 my_list.remove(5)  # value
-del my_list[9]
+del my_list[9]  # returns nothing
+my_list.index(6)  # value - may raise a ValueError
 my_list.sort(key=None, reverse=True)
 print(my_list)
 
@@ -117,6 +118,7 @@ my_int = 2
 print("The value of my_int is", my_int, ".")  # add spaces
 print("The value of my_int is " + str(my_int) + " and not " + str(cos(pi)) + ".")
 print("I need %s minutes please." % my_int)
+print('What is your {0}? It is {1}.'.format("int", my_int))
 
 
 def switch(my_string):
@@ -142,3 +144,29 @@ def f(ham: str, eggs: str = 'eggs') -> str:
 print(f.__annotations__)
 print(f("spam"))
 print(f("spam", "pasta"))
+
+# argument unpacking
+print(list(range(*[3, 6])))
+print(list(range(*(3, 6))))
+
+
+def manipulate_arguments(should_print, *arguments, **keywords):
+    if should_print:
+        for arg in arguments:
+            print(arg,)
+        for key, value in keywords.items():
+            print(key, value)
+
+
+def manipulate_arguments2(should_print, *arguments, greeting="hello", gesture="wave"):
+    if should_print:
+        print(greeting, "(" + gesture + ")", str(len(arguments)) + "x")
+
+
+manipulate_arguments(True, "a", "b", "c", "d", greeting="hello", gesture="wave")
+manipulate_arguments(True, *["a", "b", "c", "d"], **{"greeting": "hi", "gesture": "get out"})
+
+manipulate_arguments2(True, "a", "b", "c")
+manipulate_arguments2(True, greeting="hi", gesture="get out")
+manipulate_arguments2(True, *["a", "b", "c", "d"], **{"greeting": "hi", "gesture": "get out"})
+

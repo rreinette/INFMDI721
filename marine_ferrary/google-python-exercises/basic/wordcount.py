@@ -38,37 +38,35 @@ print_words() and print_top().
 """
 
 import sys
-import operator
 
-def helper(filename):
-    wordcount=dict()
-    f=open(filename)
-    read_data=f.read()
-    txt=list(read_data.lower().split())
-    for word in txt:
-        if word in wordcount:
-            wordcount[word]+=1
-        else:
-            wordcount[word]=1
-    return wordcount
+def print_words(filename) : 
+  words_occ = read_file_and_load_dic(filename)
+  ordered_words = sorted (words_occ.items(), key = lambda t:t[0])
+  for (word, count) in ordered_words : 
+    print (word+" "+str(count)+"\n")
+  
 
-def print_words(filename):
-    d=helper(filename)
-    for w in sorted(d.items() ,key=operator.itemgetter(1), reverse=True):
-        print(str(w[0])+' '+str(w[1]))
+def print_top(filename) :
+  words_occ =  read_file_and_load_dic(filename)
+  ordered_words = sorted(words_occ.items(), key= lambda t:t[1])
+  for (word,count)in ordered_words[:20] :
+    print (word+" "+str(count)+"\n") 
 
-def print_top(filename):
-    d=helper(filename)
-    i=0
-    for w in sorted(d.items() ,key=operator.itemgetter(1), reverse=True):
-        if i < 20:
-            print(str(w[0])+' '+str(w[1]))
-            i+=1
-        else:
-            break
 
-#print(print_top('alice.txt'))
-        
+def read_file_and_load_dic(filename):
+
+
+  word_occ ={}
+  with open(filename,"r") as f:
+    for line in f.readlines() : 
+      for word in line.split(" ") :
+        new_word = word.strip().lower() 
+        if new_word in word_occ : 
+          word_occ[new_word]+=1
+        else : 
+          word_occ[new_word] = 1
+  return word_occ
+
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
@@ -82,7 +80,7 @@ def print_top(filename):
 # calls the print_words() and print_top() functions which you must define.
 def main():
   if len(sys.argv) != 3:
-    print ('usage: ./wordcount.py {--count | --topcount} file')
+    print 'usage: ./wordcount.py {--count | --topcount} file'
     sys.exit(1)
 
   option = sys.argv[1]
@@ -92,7 +90,7 @@ def main():
   elif option == '--topcount':
     print_top(filename)
   else:
-    print ('unknown option: ') + option
+    print 'unknown option: ' + option
     sys.exit(1)
 
 if __name__ == '__main__':
