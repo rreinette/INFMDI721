@@ -35,7 +35,7 @@ def front_x(words):
   e.g. ['mix', 'xyz', 'apple', 'xanadu', 'aardvark'] yields ['xanadu', 'xyz', 'aardvark', 'apple', 'mix']"""
   sorted_list = [] 
   try:
-    x_list = [w for w in words if w[0] == 'x']
+    x_list = [w for w in words if w.startswith('x')]
     others_list = [w for w in words if w not in x_list]
     x_list.sort()
     others_list.sort()
