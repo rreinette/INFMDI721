@@ -38,50 +38,61 @@ print_words() and print_top().
 """
 
 import sys
+import string #Delete punctuation
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
 # You could write a helper utility function that reads a file
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
+def importContent(filename):
+    f = open(filename, "r")
+    content = f.readlines()
+    f.close()
+    return content
 
-def read_file(filename):
-  file = open(filename, "r")
-  return file.read()
+def countWords(content):
+    words = dict()
+    for line in content:
+        for word in line.split(" "):
+            # Data cleaning:
+            w = word.lower()                            #Lowercase
+            w = w.translate(None, string.punctuation)   #No punctuation
+            w = w.replace('\n', '')                     #No new lines
 
-def count_words(filename):
-  words = read_file(filename).split()
-  word_dic = {}
-  for word in words:
-    lower = word.lower()
-    if lower in word_dic:
-      word_dic[lower] += 1
-    else:
-      word_dic[lower] = 1
-  return word_dic
+            if w not in words:
+                words[w] = 1
+            else:
+                words[w] += 1
+    return words
 
 def print_words(filename):
-  word_dic = count_words(filename)
-  keys = word_dic.keys()
-  keys.sort()
-  for word in keys:
-    count = word_dic[word]
-    print(word + " " + str(count))
+
+    content = importContent(filename)
+    words = countWords(content)
+
+    key_list = words.keys()
+    key_list.sort()
+    for key in key_list:
+        print(key + ":\t" + str(words[key]))
 
 def print_top(filename):
-  word_dic = count_words(filename)
-  sorted_list = sorted(word_dic.items(), key=lambda kvp: kvp[1], reverse=True)
-  for kvp in sorted_list[:20]:
-    print(kvp[0] + " " + str(kvp[1]))
 
+    content = importContent(filename)
+    words = countWords(content)
 
+    nbWordsToPrint = 20
+
+    for word, count in sorted(words.iteritems(), key=lambda (k,v): (v,k),
+                             reverse=True)[:nbWordsToPrint]:
+        print (word +":\t" + str(count))
 ###
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 def main():
   if len(sys.argv) != 3:
-    print('usage: ./wordcount.py {--count | --topcount} file')
+    print 'usage: ./wordcount.py {--count | --topcount} file'
     sys.exit(1)
 
   option = sys.argv[1]
@@ -91,7 +102,7 @@ def main():
   elif option == '--topcount':
     print_top(filename)
   else:
-    print('unknown option: ' + option)
+    print 'unknown option: ' + option
     sys.exit(1)
 
 if __name__ == '__main__':
