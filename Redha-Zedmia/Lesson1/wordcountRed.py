@@ -38,37 +38,6 @@ print_words() and print_top().
 """
 
 import sys
-import operator
-
-def helper(filename):
-    wordcount=dict()
-    f=open(filename)
-    read_data=f.read()
-    txt=list(read_data.lower().split())
-    for word in txt:
-        if word in wordcount:
-            wordcount[word]+=1
-        else:
-            wordcount[word]=1
-    return wordcount
-
-def print_words(filename):
-    d=helper(filename)
-    for w in sorted(d.items() ,key=operator.itemgetter(1), reverse=True):
-        print(str(w[0])+' '+str(w[1]))
-
-def print_top(filename):
-    d=helper(filename)
-    i=0
-    for w in sorted(d.items() ,key=operator.itemgetter(1), reverse=True):
-        if i < 20:
-            print(str(w[0])+' '+str(w[1]))
-            i+=1
-        else:
-            break
-
-#print(print_top('alice.txt'))
-        
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
@@ -80,20 +49,48 @@ def print_top(filename):
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
-def main():
-  if len(sys.argv) != 3:
-    print ('usage: ./wordcount.py {--count | --topcount} file')
-    sys.exit(1)
 
-  option = sys.argv[1]
-  filename = sys.argv[2]
-  if option == '--count':
-    print_words(filename)
-  elif option == '--topcount':
-    print_top(filename)
-  else:
-    print ('unknown option: ') + option
-    sys.exit(1)
+def fileToDict(filename):
+    f = open(filename, 'rU')
+    dic ={}
+    for line in f:
+        wordList = line.split()
+        for i in wordList:
+            i = i.lower()
+            if i not in dic.keys():
+                dic[i] = 1
+            else:
+                dic[i]+=1
+    return dic
+    f.close()
+
+def print_words(filename):
+    listAllWords = fileToDict(filename).items()
+    for i in listAllWords:
+        print i[0],i[1]
+        
+def print_top(filename):
+    listAllWords = fileToDict(filename).items()
+    revListTop20 = sorted([x[::-1] for x in listAllWords], reverse = True)[0:20]
+    listTop20 = [x[::-1] for x in revListTop20]
+    for i in listTop20:
+        print i[0],i[1]
+        
+
+def main():
+    if len(sys.argv) != 3:
+        print 'usage: ./wordcount.py {--count | --topcount} file'
+        sys.exit(1)
+
+    option = sys.argv[1]
+    filename = sys.argv[2]
+    if option == '--count':
+        print_words(filename)
+    elif option == '--topcount':
+        print_top(filename)
+    else:
+        print 'unknown option: ' + option
+        sys.exit(1)
 
 if __name__ == '__main__':
-  main()
+    main()

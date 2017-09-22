@@ -38,43 +38,40 @@ print_words() and print_top().
 """
 
 import sys
-import operator
-
-def helper(filename):
-    wordcount=dict()
-    f=open(filename)
-    read_data=f.read()
-    txt=list(read_data.lower().split())
-    for word in txt:
-        if word in wordcount:
-            wordcount[word]+=1
-        else:
-            wordcount[word]=1
-    return wordcount
-
-def print_words(filename):
-    d=helper(filename)
-    for w in sorted(d.items() ,key=operator.itemgetter(1), reverse=True):
-        print(str(w[0])+' '+str(w[1]))
-
-def print_top(filename):
-    d=helper(filename)
-    i=0
-    for w in sorted(d.items() ,key=operator.itemgetter(1), reverse=True):
-        if i < 20:
-            print(str(w[0])+' '+str(w[1]))
-            i+=1
-        else:
-            break
-
-#print(print_top('alice.txt'))
-        
+from collections import Counter
+from collections import OrderedDict
+from operator import itemgetter
+import itertools
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
 # You could write a helper utility function that reads a file
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
+
+def read_and_count_file1(file):
+    file_content = open(file, "r")
+    count = Counter(file_content.read().lower().split())
+    return count
+    
+    
+#def print_words2(file):
+#    countDict = read_and_count_file1(file)
+ #   for word, count in countDict.items():
+  #      print (word, count)
+
+def print_words(file):
+    countDict = read_and_count_file1(file)
+    orderedCountDict = OrderedDict(sorted(countDict.items()))
+    for word, count in orderedCountDict.items():
+        print (word, count)
+        
+def print_top(file):
+    countDict = read_and_count_file1(file)
+    orderedCountDict = OrderedDict(reversed(sorted(countDict.items(), key = itemgetter(1))))
+    firstTwenty = itertools.islice(orderedCountDict.items(), 0, 20)
+    for word, count in firstTwenty:
+        print (word, count)
 
 ###
 
@@ -92,8 +89,10 @@ def main():
   elif option == '--topcount':
     print_top(filename)
   else:
-    print ('unknown option: ') + option
+    print ('unknown option: ' + option)
     sys.exit(1)
-
+  #print(read_and_count_file1("/Users/cluclu/Documents/Python-MDI721/google-python-exercises/basic/small2.txt"))  
+  #print_top("/Users/cluclu/Documents/Python-MDI721/google-python-exercises/basic/small2.txt")
+  
 if __name__ == '__main__':
   main()

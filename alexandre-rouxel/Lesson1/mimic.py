@@ -47,39 +47,60 @@ import sys
 
 def mimic_dict(filename):
   """Returns mimic dict mapping each word to list of words which follow it."""
-  mimic_dict = {}  # Map each word to its count
-  input_file = open(filename, 'r')
-  before_word = ''
-  for line in input_file:
-    words = line.split()
-    for word in words:
-      word = word
-      if not before_word in mimic_dict:
-        mimic_dict[before_word] = [word]
-      else:
-        mimic_dict[before_word].append(word)
-      before_word = word
-  input_file.close()
+  # +++your code here+++
+  
+  #read file 
+  with open(filename,'r+') as f :
+     read_str = f.read()
+     f.close()
+  
+  #extract list 
+  text = read_str.split();#split by space by default 
+  #build a mimic dictionary based on text
+  #mimic_dict={ PREVIOUS WORD: NEXT WORDS IN TEXT , ...}
+  mimic_dict = {}
+  previous = '' # string
+  for word in text :
+      if previous in mimic_dict : 
+          mimic_dict[previous].append(word) #words found after previous are added
+      else :
+          mimic_dict[previous] = [word,] # init the list of words
+
+      previous=word
+
   return mimic_dict
 
 
 def print_mimic(mimic_dict, word):
-  randomvalue_mimic_dict = 'not found!'
-  if word in mimic_dict:
-      randomvalue_mimic_dict =  random.choice(mimic_dict[word])
-  print word, randomvalue_mimic_dict
+  """Given mimic dict and start word, prints 200 random words."""
+  # +++your code here+++
+  print(mimic_dict)
+      
+  out_print=[];
+  for idx in range(200) :
+      if word in mimic_dict :
+          next_word= random.choice(mimic_dict[word]); 
+      else : 
+         # key = word has no value except '' in the dico so 
+         # restart to ''  key
+         next_word =  '';
+         
+      out_print.append(next_word)
+      word = next_word
+  
+  print(out_print)
 
 
 # Provided main(), calls mimic_dict() and mimic()
 def main():
   if len(sys.argv) != 2:
-    print 'usage: ./mimic.py file-to-read'
+    print ('usage: ./mimic.py file-to-read')
+    print ('for instance in iPy consol !python mimic.py file.txt ')
+
     sys.exit(1)
 
   dict = mimic_dict(sys.argv[1])
   print_mimic(dict, '')
-  print_mimic(dict, 'Football')
-  print_mimic(dict, 'noexist')
 
 
 if __name__ == '__main__':
