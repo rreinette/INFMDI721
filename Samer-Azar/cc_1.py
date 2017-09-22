@@ -20,16 +20,21 @@ def array_front9(nums):
 # that a substring length 2 appears  in the string and also as
 # the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
 def last2(string):
-    return 0
+    if len(string) < 2:
+        return
+    last = string[-2:]
+    count = 0
+    for i in range(0,len(string)-3):
+        if string[i:i+2] == last:
+            count += 1
+    return count
 
 
 #Write a program that maps a list of words into a list of
 #integers representing the lengths of the correponding words.
 def length_words(array):
-    map = {}
-    for i in array:
-        map[i] = len(i)
-    return map
+    return map(lambda x: len(x), array)
+
 
 #write fizbuzz programm
 def fizbuzz():
@@ -38,22 +43,20 @@ def fizbuzz():
             print ("FizzBuzz")
         elif (i % 3 == 0):
             print ("Fizz")
-        elif (i % 3 == 0):
+        elif (i % 5 == 0):
             print ("Buzz")
         else:
             print(i)
 
 #Write a function that takes a number and returns a list of its digits.
 def number2digits(number):
-    return
+    return [x for x in str(number)]
 
 #Write function that translates a text to Pig Latin and back.
 #English is translated to Pig Latin by taking the first letter of every word,
 #moving it to the end of the word and adding 'ay'
 def pigLatin(text):
-    for word in text:
-        word += word[0] + "ay"
-    return text
+    return ' '.join([word[1:] + word[0] + 'ay' for word in text.split(' ')]).capitalize()
 
 #Write a proramm that returna dictionary of occurences of the alphabet for a given string.
 # Test it with the Lorem upsuj
