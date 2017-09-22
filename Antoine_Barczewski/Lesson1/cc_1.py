@@ -18,7 +18,7 @@ def array_front9(nums):
 # that a substring length 2 appears  in the string and also as
 # the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
 def last2(string):
-    return string.count(string[-2:])
+    return string.count(string[-2:]) - 1
 
 
 #Write a program that maps a list of words into a list of
@@ -28,24 +28,19 @@ def length_words(array):
 
 #write fizbuzz programm
 def fizbuzz(number):
-    if number // 3 == 0 && number // 5 == 0:
-        return 'fizbuzz'
-    elif number // 3 == 0:
-        return 'fiz'
-    elif number // 5 == 0:
-        return 'buzz'
+    return 'fiz'*(number%3 == 0)+'buzz'*(number%5) or number
 
 #Write a function that takes a number and returns a list of its digits.
 def number2digits(number):
-  return
+  return [int(x) for x in str(number)]
 
 #Write function that translates a text to Pig Latin and back.
 #English is translated to Pig Latin by taking the first letter of every word,
 #moving it to the end of the word and adding 'ay'
 def pigLatin(text):
-  return
+  return ' '.join([word[1:] + word[:1] + 'ay' for word in text.split()]).lower().capitalize()
 
-#Write a proramm that returna dictionary of occurences of the alphabet for a given string.
+#Write a proramm that return a dictionary of occurences of the alphabet for a given string.
 # Test it with the Lorem upsuj
 #"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 def occurences(text):
@@ -53,7 +48,7 @@ def occurences(text):
 
 # Here's our "unit tests".
 class Lesson1Tests(unittest.TestCase):
-    fizbuzz()
+    fizbuzz(15)
     def testArrayFront9(self):
         self.assertEqual(array_front9([1, 2, 9, 3, 4]) , True)
         self.assertEqual(array_front9([1, 2, 3, 4, 9]) , False)
@@ -67,7 +62,7 @@ class Lesson1Tests(unittest.TestCase):
     def testLast2(self):
         self.assertEqual(last2('hixxhi') , 1)
         self.assertEqual(last2('xaxxaxaxx') , 1)
-        self.assertEqual(last2('axxxaaxx') , 2)
+        self.assertEqual(last2('axxxxaaxx') , 2)
 
     def testLengthWord(self):
         self.assertEqual(length_words(['hello','toto']) , [5,4])
