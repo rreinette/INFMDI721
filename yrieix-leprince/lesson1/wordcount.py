@@ -38,44 +38,54 @@ print_words() and print_top().
 """
 
 import sys
-
-def print_words(filename) : 
-  words_occ = read_file_and_load_dic(filename)
-  ordered_words = sorted (words_occ.items(), key = lambda t:t[0])
-  for (word, count) in ordered_words : 
-    print (word+" "+str(count)+"\n")
-  
-
-def print_top(filename) :
-  words_occ =  read_file_and_load_dic(filename)
-  ordered_words = sorted(words_occ.items(), key= lambda t:t[1])
-  for (word,count)in ordered_words[:20] :
-    print (word+" "+str(count)+"\n") 
-
-
-def read_file_and_load_dic(filename):
-
-
-  word_occ ={}
-  with open(filename,"r") as f:
-    line = f.readline()
-    while line: 
-      for word in line.split(" ") :
-        new_word = word.strip().lower() 
-        if new_word in word_occ : 
-          word_occ[new_word]+=1
-        else : 
-          word_occ[new_word] = 1
-      line = f.readline()
-  return word_occ
-
+import string #Delete punctuation
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
 # You could write a helper utility function that reads a file
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
+def importContent(filename):
+    f = open(filename, "r")
+    content = f.readlines()
+    f.close()
+    return content
 
+def countWords(content):
+    words = dict()
+    for line in content:
+        for word in line.split(" "):
+            # Data cleaning:
+            w = word.lower()                            #Lowercase
+            w = w.translate(None, string.punctuation)   #No punctuation
+            w = w.replace('\n', '')                     #No new lines
+
+            if w not in words:
+                words[w] = 1
+            else:
+                words[w] += 1
+    return words
+
+def print_words(filename):
+
+    content = importContent(filename)
+    words = countWords(content)
+
+    key_list = words.keys()
+    key_list.sort()
+    for key in key_list:
+        print(key + ":\t" + str(words[key]))
+
+def print_top(filename):
+
+    content = importContent(filename)
+    words = countWords(content)
+
+    nbWordsToPrint = 20
+
+    for word, count in sorted(words.iteritems(), key=lambda (k,v): (v,k),
+                             reverse=True)[:nbWordsToPrint]:
+        print (word +":\t" + str(count))
 ###
 
 # This basic command line argument parsing code is provided and

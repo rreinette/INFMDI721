@@ -39,37 +39,6 @@ print_words() and print_top().
 
 import sys
 
-def print_words(filename) : 
-  words_occ = read_file_and_load_dic(filename)
-  ordered_words = sorted (words_occ.items(), key = lambda t:t[0])
-  for (word, count) in ordered_words : 
-    print (word+" "+str(count)+"\n")
-  
-
-def print_top(filename) :
-  words_occ =  read_file_and_load_dic(filename)
-  ordered_words = sorted(words_occ.items(), key= lambda t:t[1])
-  for (word,count)in ordered_words[:20] :
-    print (word+" "+str(count)+"\n") 
-
-
-def read_file_and_load_dic(filename):
-
-
-  word_occ ={}
-  with open(filename,"r") as f:
-    line = f.readline()
-    while line: 
-      for word in line.split(" ") :
-        new_word = word.strip().lower() 
-        if new_word in word_occ : 
-          word_occ[new_word]+=1
-        else : 
-          word_occ[new_word] = 1
-      line = f.readline()
-  return word_occ
-
-
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
 # You could write a helper utility function that reads a file
