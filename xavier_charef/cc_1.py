@@ -5,18 +5,20 @@ import unittest
 # that is n copies of the original string.
 
 def string_times(string, n):
-    return n*string
+    return string ** n
 
 # Given an array of ints, return True if one of the first 4 elements
 # in the array is a 9. The array length may be less than 4.
 def array_front9(nums):
-    if len(nums)<4:
-        if 9 in nums:
+    #longueur=min(len(nums) & 4)
+    i = 0
+    while i <= 3:
+        if  nums[i] == 9:
             return True
-    else :
-        if 9 in nums[0:3]:
-            return True
+        else:
+            i += 1
     return False
+
 
 
 # Given a string, return the count of the number of times
@@ -24,47 +26,40 @@ def array_front9(nums):
 # the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
 def last2(string):
 
-    #substring
-
-    return string
+    return
 
 
 #Write a program that maps a list of words into a list of
 #integers representing the lengths of the correponding words.
 def length_words(array):
-    dico = {}
-    for a in array:
-        dico[a]=len(a)
-    return dico
+    list_num = []
+    for word in array:
+        list.append(len(word))
+    return list_num
 
 #write fizbuzz programm
 def fizbuzz():
-    return 0
+    return
 
 #Write a function that takes a number and returns a list of its digits.
 def number2digits(number):
-  return list(str(number))
+    string = '%s' % number
+    list=[]
+    for char in string:
+        list.append(int(char))
+    return list
 
 #Write function that translates a text to Pig Latin and back.
 #English is translated to Pig Latin by taking the first letter of every word,
 #moving it to the end of the word and adding 'ay'
 def pigLatin(text):
-    string = ""
-    for wd in text:
-        string = string + wd+wd[0]+"ay"
-    return string
+  return
 
 #Write a proramm that returna dictionary of occurences of the alphabet for a given string.
 # Test it with the Lorem upsuj
 #"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 def occurences(text):
-    dico ={}
-    for a in text:
-        if a not in dico:
-            dico[a] = 1
-        else:
-            dico[a] += 1
-    return dico
+  return
 
 # Here's our "unit tests".
 class Lesson1Tests(unittest.TestCase):
@@ -102,3 +97,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
