@@ -23,54 +23,71 @@ def array_front9(nums):
 # that a substring length 2 appears  in the string and also as
 # the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
 def last2(string):
-    last2 = string[-2:]
-    count = 0
-    for i in len(string -1)
-        if last2 == string[i:i+1]
-            count +=1 
+    if string.length < 2:
+        return 0
+    else:
+        last2 = string[-2:]
+        count = 0
+        for i in len(string -2):
+            if last2 == string[i:i+1]:
+                count +=1 
     return count
 
 
 #Write a program that maps a list of words into a list of
 #integers representing the lengths of the correponding words.
+# def length_words(array):
+#     arrayLength = []
+#     for word in array:
+#         arrayLength.append(len(word)) 
+#     return arrayLength
+
 def length_words(array):
-    arrayLength = []
-    for word in array:
-        arrayLength.append(len(word)) 
-    return arrayLength
+    return map(array, lambda x: x.length)
+
 
 #write fizbuzz programm
 def fizbuzz(number):
 
     for i in range(number):
         if number%[15] == 0:
-            print "fizbuzz"
-        else if number%[3] == 0:
-            print "fizz"
-        else if number%[5] == 0:
-            print "buzz"
+            print("fizbuzz")
+        elif number%[3] == 0:
+            print("fizz")
+        elif number%[5] == 0:
+            print("buzz")
         else:
-            print i
+            print(i)
 
 #Write a function that takes a number and returns a list of its digits.
+# def number2digits(number):
+#     arrayDigits = []
+#     print(len(number))
+#     for digit in range(len(number)):
+#         arrayDigits.append(digit)
+#     print(arrayDigits)
+#     return arrayDigits
+
 def number2digits(number):
-  return
+    return [x for x in str(number)]
 
 #Write function that translates a text to Pig Latin and back.
 #English is translated to Pig Latin by taking the first letter of every word,
 #moving it to the end of the word and adding 'ay'
 def pigLatin(text):
-  return
+  return ' '.join([x[1:] + x[0] + 'ay' for x in text.split(' ')]).capitalize()
 
 #Write a proramm that returna dictionary of occurences of the alphabet for a given string.
 # Test it with the Lorem upsuj
 #"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 def occurences(text):
-  return
+    dictionnaire = 'azerty'
+    result = {}
+  return [result[i] += 1 if result[i] else result[i] = 1 for i in text]
 
 # Here's our "unit tests".
 class Lesson1Tests(unittest.TestCase):
-    fizbuzz()
+    fizbuzz(30)
     def testArrayFront9(self):
         self.assertEqual(array_front9([1, 2, 9, 3, 4]) , True)
         self.assertEqual(array_front9([1, 2, 3, 4, 9]) , False)
