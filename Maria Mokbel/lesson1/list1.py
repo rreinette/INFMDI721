@@ -21,11 +21,11 @@
 # and last chars of the string are the same.
 # Note: python does not have a ++ operator, but += works.
 def match_ends(words):
-  c = 0
-  for w in words:
-    if len(w) >= 2 and w[0] == w[-1]:
-      c += 1
-  return c
+    count=0
+    for w in words:
+        if ((len(w)>1) and (w[0]==w[len(w)-1])):
+            count+=1
+    return count
 
 
 # B. front_x
@@ -36,14 +36,15 @@ def match_ends(words):
 # Hint: this can be done by making 2 lists and sorting each of them
 # before combining them.
 def front_x(words):
-  x_list = []
-  for i, w in enumerate(words[:]):
-    if len(w) > 0 and w[0] == 'x':
-      words.pop(i - len(x_list))
-      x_list.append(w)
-  x_list.sort()
-  words.sort()
-  return x_list + words
+    l1=[]
+    l2=[]
+    for w in words:
+        if (w[0]=="x"):
+            l2.append(w)
+        else:
+            l1.append(w)
+    return (sorted(l2)+sorted(l1))
+
 
 
 # C. sort_last
@@ -53,8 +54,9 @@ def front_x(words):
 # [(2, 2), (1, 3), (3, 4, 5), (1, 7)]
 # Hint: use a custom key= function to extract the last element form each tuple.
 def sort_last(tuples):
-  tuples.sort(key=lambda tup: tup[1])
-  return tuples
+    def last_element(t):
+        return t[-1]
+    return sorted(tuples,key=last_element)
 
 
 # Simple provided test() function used in main() to print
@@ -64,18 +66,18 @@ def test(got, expected):
     prefix = ' OK '
   else:
     prefix = '  X '
-  print('%s got: %s expected: %s' % (prefix, repr(got), repr(expected)))
+  print (prefix, "got: ",repr(got), "expected: ", repr(expected))
 
 
 # Calls the above functions with interesting inputs.
 def main():
-  print('match_ends')
+  print ('match_ends')
   test(match_ends(['aba', 'xyz', 'aa', 'x', 'bbb']), 3)
   test(match_ends(['', 'x', 'xy', 'xyx', 'xx']), 2)
   test(match_ends(['aaa', 'be', 'abc', 'hello']), 1)
 
-  print()
-  print('front_x')
+  print
+  print ('front_x')
   test(front_x(['bbb', 'ccc', 'axx', 'xzz', 'xaa']),
        ['xaa', 'xzz', 'axx', 'bbb', 'ccc'])
   test(front_x(['ccc', 'bbb', 'aaa', 'xcc', 'xaa']),
@@ -84,8 +86,8 @@ def main():
        ['xanadu', 'xyz', 'aardvark', 'apple', 'mix'])
 
        
-  print()
-  print('sort_last')
+  print
+  print( 'sort_last')
   test(sort_last([(1, 3), (3, 2), (2, 1)]),
        [(2, 1), (3, 2), (1, 3)])
   test(sort_last([(2, 3), (1, 2), (3, 1)]),

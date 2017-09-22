@@ -45,43 +45,42 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
-def read_file(filename):
-  file = open(filename, "r")
-  return file.read()
+def utility(filename):
+ f = open(filename, 'r')
+ wordList = f.read().lower().split()
 
-def count_words(filename):
-  words = read_file(filename).split()
-  word_dic = {}
-  for word in words:
-    lower = word.lower()
-    if lower in word_dic:
-      word_dic[lower] += 1
-    else:
-      word_dic[lower] = 1
-  return word_dic
-
+ wordCount = dict()
+ for word in wordList:
+  if word not in wordCount.keys():
+   wordCount[word] = 0
+  wordCount[word] += 1 
+ return wordCount
+ 
 def print_words(filename):
-  word_dic = count_words(filename)
-  keys = word_dic.keys()
-  keys.sort()
-  for word in keys:
-    count = word_dic[word]
-    print(word + " " + str(count))
+ wordCount = utility(filename)
+ for word in sorted(wordCount.keys()):
+  print word + ' ' + str(wordCount[word])
+ return
 
 def print_top(filename):
-  word_dic = count_words(filename)
-  sorted_list = sorted(word_dic.items(), key=lambda kvp: kvp[1], reverse=True)
-  for kvp in sorted_list[:20]:
-    print(kvp[0] + " " + str(kvp[1]))
-
-
+ wordCount = utility(filename)
+ def sortTuple(tup):
+  return tup[-1]
+ wordTuple = wordCount.items()
+ wordTuple = sorted(wordTuple, key= sortTuple)
+ rangeMax = len(wordCount)
+ if rangeMax > 20 : rangeMax = 20
+ for i in range(rangeMax):
+  print wordTuple[i][0] + " " + str(wordTuple[i][1])
+ return 
+  
 ###
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 def main():
   if len(sys.argv) != 3:
-    print('usage: ./wordcount.py {--count | --topcount} file')
+    print 'usage: ./wordcount.py {--count | --topcount} file'
     sys.exit(1)
 
   option = sys.argv[1]
@@ -91,7 +90,7 @@ def main():
   elif option == '--topcount':
     print_top(filename)
   else:
-    print('unknown option: ' + option)
+    print 'unknown option: ' + option
     sys.exit(1)
 
 if __name__ == '__main__':
