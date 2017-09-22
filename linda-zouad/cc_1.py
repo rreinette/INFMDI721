@@ -10,10 +10,9 @@ def string_times(string, n):
 # Given an array of ints, return True if one of the first 4 elements
 # in the array is a 9. The array length may be less than 4.
 def array_front9(nums):
-    for i in range(0, len(nums)):
+    for i in range(4):
         if nums[i] == 9:
-            return True
-  
+            return True    
 
 # Given a string, return the count of the number of times
 # that a substring length 2 appears  in the string and also as
