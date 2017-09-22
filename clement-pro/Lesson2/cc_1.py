@@ -9,6 +9,7 @@ def string_times(string, n):
     for i in range(n):
         new_str += string
     return new_str
+# can be made more simple : return n * string
 
 # Given an array of ints, return True if one of the first 4 elements
 # in the array is a 9. The array length may be less than 4.
@@ -20,15 +21,20 @@ def array_front9(nums):
     else:
         return False
     #longueur=min(len(nums) & 4)
-
+# can be made more simple: return 9 in nums[:4]
 
 # Given a string, return the count of the number of times
 # that a substring length 2 appears  in the string and also as
 # the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
 def last2(string):
+    if len(string) < 2:
+        return
     s = string[-2:]
-    return string.count(s) - 1
-
+    count = 0
+    for i in range(len(string) - 3):
+        if string[i:i+2] == s:
+            count += 1
+    return count
 
 #Write a program that maps a list of words into a list of
 #integers representing the lengths of the correponding words.
@@ -37,12 +43,14 @@ def length_words(array):
     for word in array:
         result.append(len(word))
     return result
+# can be made more simple: return map(array, lambda x: len(x))
+# or return [len(x) for x in array]
 
 #write fizbuzz programm
 def fizbuzz(n):
     i = 0
     while i < n:
-        if i % 3 & i % 5:
+        if i % 3 and i % 5:
             print("Fizbuzz")
         elif i % 3:
             print("Fiz")
@@ -50,11 +58,12 @@ def fizbuzz(n):
             print("Buzz")
         else:
             print(str(i))
-
+        i += 1
+# print ['Fizz'*(i%3<1)+'Buzz'*(i%5<1) or i for i in range(1,101)]
 
 #Write a function that takes a number and returns a list of its digits.
 def number2digits(number):
-  return
+    return [int(x) for x in str(number)]
 
 #Write function that translates a text to Pig Latin and back.
 #English is translated to Pig Latin by taking the first letter of every word,
@@ -64,7 +73,8 @@ def pigLatin(text):
     words = text.split()
     for word in words:
         list_pig.append(word[1:] + word[0] + 'ay')
-    return ''.join(list_pig)
+    return ' '.join(list_pig)
+# more simple: [word[1:] + word[0] + 'ay' for word in text.split()]
 
 
 #Write a proramm that returna dictionary of occurences of the alphabet for a given string.
@@ -79,10 +89,11 @@ def occurences(text):
         else:
             dico[word] = 1
     return dico
+# more compact version: [result[i] += 1 if i in result else result[i] = 1 for i in text]; return result
 
 # Here's our "unit tests".
 class Lesson1Tests(unittest.TestCase):
-    fizbuzz()
+    fizbuzz(10)
     def testArrayFront9(self):
         self.assertEqual(array_front9([1, 2, 9, 3, 4]) , True)
         self.assertEqual(array_front9([1, 2, 3, 4, 9]) , False)
@@ -107,7 +118,7 @@ class Lesson1Tests(unittest.TestCase):
         self.assertEqual(number2digits(4985098) , [4,9,8,5,0,9,8])
 
     def testPigLatin(self):
-        self.assertEqual(pigLatin("The quick brown fox") , "Hetay uickqay rownbay oxfay")
+        self.assertEqual(pigLatin("The quick brown fox") , "heTay uickqay rownbay oxfay")
 
 
 
