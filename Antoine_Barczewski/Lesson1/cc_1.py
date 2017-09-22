@@ -28,7 +28,7 @@ def length_words(array):
 
 #write fizbuzz programm
 def fizbuzz(number):
-    return 'fiz'*(number%3 == 0)+'buzz'*(number%5) or number
+    return 'fiz'*(number%3 == 0)+'buzz'*(number%5 == 0) or number
 
 #Write a function that takes a number and returns a list of its digits.
 def number2digits(number):
@@ -48,7 +48,12 @@ def occurences(text):
 
 # Here's our "unit tests".
 class Lesson1Tests(unittest.TestCase):
-    fizbuzz(15)
+
+    def fizbuzz(self):
+        self.assertEqual(fizbuzz(15) , 'fizbuzz')
+        self.assertEqual(fizbuzz(66) , 'fiz')
+        self.assertEqual(fizbuzz(67) , 67)
+
     def testArrayFront9(self):
         self.assertEqual(array_front9([1, 2, 9, 3, 4]) , True)
         self.assertEqual(array_front9([1, 2, 3, 4, 9]) , False)
