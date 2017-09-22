@@ -41,21 +41,21 @@ def front_x(words):
   # +++your code here+++
 
   x_list = []
-  list = []
+  others_list = []
 
   ## sort the words into two lists, depending on their first letter
   for word in words:
     if word[0] == 'x':
       x_list.append(word)
     else:
-      list.append(word)
+      others_list.append(word)
 
   # sort each list
-  list_sorted = sorted(list)
+  others_list_sorted = sorted(others_list)
   x_list_sorted = sorted(x_list)
 
   ## combine the sorted lists
-  output = x_list_sorted + list_sorted
+  output = x_list_sorted + others_list_sorted
   return output
 
 
