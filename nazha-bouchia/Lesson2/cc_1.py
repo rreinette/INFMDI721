@@ -35,7 +35,17 @@ def length_words(array):
 
 #write fizbuzz programm
 def fizbuzz():
-    return
+    for i in range(1,101):
+        isMultiple3 = i%3 == 0
+        isMultiple5 = i%5 == 0
+        printnumber = ''
+        if( not isMultiple3  and not isMultiple5):
+            printnumber = i
+        if(isMultiple3):
+            printnumber += 'Fizz'
+        if(i%5 == 0):
+            printnumber += 'Buzz'
+        print(printnumber)
 
 #Write a function that takes a number and returns a list of its digits.
 def number2digits(number):
@@ -56,11 +66,14 @@ def pigLatin(text):
 # Test it with the Lorem upsuj
 #"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 def occurences(text):
-  #Charles's solution: 
-  # dictionnaire = 'qwerty'
-#  result = {}
-#  result[i] += 1 if result[i] else result[i] = 1 for i in text
-  return
+    result = {}
+    for c in text.lower():
+        if c.isalpha():
+            if c in result.keys():
+                result[c] += 1
+            else:
+                result[c] = 1
+    return result
 
 # Here's our "unit tests".
 class Lesson1Tests(unittest.TestCase):
@@ -102,6 +115,9 @@ class Lesson1Tests(unittest.TestCase):
         self.assertEqual(pigLatin("The quick brown fox") , "Hetay uickqay rownbay oxfay")
         self.assertEqual(pigLatin("Oneword") , "Newordoay")
 
+    def testOccurences(self):
+        self.assertEqual(occurences("The text") , {'t': 3, 'h':1, 'e':2, 'x':1})
+        self.assertEqual(occurences("Hello, my name is Nazha BOUCHIA") , {'h': 3, 'e':2, 'l':2, 'o':2, 'm':2, 'y':1, 'n':2, 'a':4, 'i':2, 's':1, 'z':1, 'b':1, 'u':1, 'c':1})
 
 
 def main():
