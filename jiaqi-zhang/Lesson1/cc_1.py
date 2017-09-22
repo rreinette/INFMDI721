@@ -10,11 +10,11 @@ def string_times(string, n):
 # Given an array of ints, return True if one of the first 4 elements
 # in the array is a 9. The array length may be less than 4.
 def array_front9(nums):
-    longueur = min(len(nums) & 4)
-    for i in range(1, longueur):
-        if i == 9:
+    longueur = min(len(nums), 4)
+    for i in range(0, longueur):
+        if nums[i] == 9:
             return True
-    return
+    return False
 
 
 # Given a string, return the count of the number of times
@@ -26,19 +26,19 @@ def last2(string):
     else:
         count = 0
         ref_word = string[-2:]
-        for i in range(1,len(string)-4):
-            if string[i]+string[i+1] == ref_word:
+        for i in range(0,len(string)-2):
+            if string[i:i+2] == ref_word:
                 count += 1
-    return
+    return count
 
 
 #Write a program that maps a list of words into a list of
 #integers representing the lengths of the correponding words.
 def length_words(array):
-    dict = {}
+    result =[]
     for word in array:
-        dict[word] == len(word)
-    return dict
+        result.append(len(word))
+    return result
 
 #write fizbuzz programm
 def fizbuzz():
@@ -57,22 +57,23 @@ def fizbuzz():
 def number2digits(number):
     chiffres = []
     for i in str(number):
-        chiffres.append(i)
+        chiffres.append(int(i))
     return chiffres
 
 #Write function that translates a text to Pig Latin and back.
 #English is translated to Pig Latin by taking the first letter of every word,
 #moving it to the end of the word and adding 'ay'
 def pigLatin(text):
-    for word in text.split():
-
-    return
+    return ' '.join([x[1:]+x[0] + "ay" for x in text.split(' ')]).capitalize()
 
 #Write a proramm that returna dictionary of occurences of the alphabet for a given string.
 # Test it with the Lorem upsuj
 #"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 def occurences(text):
-  return
+    result = {}
+    for word in text:
+        result[word]=result.get(word,0)+1
+    return result
 
 # Here's our "unit tests".
 class Lesson1Tests(unittest.TestCase):
