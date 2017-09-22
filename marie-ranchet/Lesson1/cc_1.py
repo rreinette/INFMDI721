@@ -24,7 +24,9 @@ def array_front9(nums):
 # the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
 def last2(string):
 
-    return
+    #substring
+
+    return string
 
 
 #Write a program that maps a list of words into a list of
@@ -37,7 +39,7 @@ def length_words(array):
 
 #write fizbuzz programm
 def fizbuzz():
-    return
+    return 0
 
 #Write a function that takes a number and returns a list of its digits.
 def number2digits(number):
@@ -62,7 +64,7 @@ def occurences(text):
             dico[a] = 1
         else:
             dico[a] += 1
-  return dico
+    return dico
 
 # Here's our "unit tests".
 class Lesson1Tests(unittest.TestCase):
