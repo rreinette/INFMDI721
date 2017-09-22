@@ -44,44 +44,33 @@ import sys
 # You could write a helper utility function that reads a file
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
-
-###
-def read_and_split(filename):
-    with open(filename) as f:
-        datas = f.read()
-    f.closed
-    return datas.split();
-
-def count_words(filename):
-    datas = read_and_split(filename)
-    count_words = dict()
-    for d in datas:
-        count = 0
-        if d.lower() in count_words:
-            count = count_words[d.lower()]
-        count_words[d.lower()] = count + 1
-    return count_words    
+def create_dictionary_words(filename):
+    wordcount = {}
+    with open(filename) as file:  # with can auto close the file
+       for word in file.read().split():
+           word = word.lower()
+           if word not in wordcount:
+               wordcount[word] = 1
+           else:
+               wordcount[word] += 1
+    return wordcount
 
 def print_words(filename):
-    words_count = count_words(filename)
+    wordcount = create_dictionary_words(filename)
+    wordcount = sorted(wordcount.items(), key=lambda x: x[0])
+    print(wordcount)
 
-    for key in sorted(words_count.keys()) :
-        print(key, words_count[key])
-
-    
 def print_top(filename):
-    words_count = count_words(filename)
-    words_count_reverted = sorted(words_count.items(), key=lambda x: x[1], reverse=True)
-
-    for w in words_count_reverted[:20]:
-        print(w[0])
-
+    wordcount = create_dictionary_words(filename)
+    wordcount = sorted(wordcount.items(), key=lambda x: x[1], reverse=True)
+    print(wordcount[:20])
+###
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 def main():
   if len(sys.argv) != 3:
-    print 'usage: ./wordcount.py {--count | --topcount} file'
+    print('usage: ./wordcount.py {--count | --topcount} file')
     sys.exit(1)
 
   option = sys.argv[1]
@@ -91,7 +80,7 @@ def main():
   elif option == '--topcount':
     print_top(filename)
   else:
-    print 'unknown option: ' + option
+    print('unknown option: ' + option)
     sys.exit(1)
 
 if __name__ == '__main__':
