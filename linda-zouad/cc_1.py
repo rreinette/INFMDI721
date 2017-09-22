@@ -5,75 +5,76 @@ import unittest
 # that is n copies of the original string.
 
 def string_times(string, n):
-    return n * string
+    return n*string
 
 # Given an array of ints, return True if one of the first 4 elements
 # in the array is a 9. The array length may be less than 4.
 def array_front9(nums):
-    longueur = min(len(nums), 4)
-    for i in range(0, longueur):
+    for i in range(4):
         if nums[i] == 9:
-            return True
-    return False
-
+            return True    
 
 # Given a string, return the count of the number of times
 # that a substring length 2 appears  in the string and also as
 # the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
-def last2(string):
-    if len(string) <= 2:
-        return 0
-    else:
-        count = 0
-        ref_word = string[-2:]
-        for i in range(0,len(string)-2):
-            if string[i:i+2] == ref_word:
-                count += 1
-    return count
 
+def last2(string):      
+    return
 
 #Write a program that maps a list of words into a list of
 #integers representing the lengths of the correponding words.
 def length_words(array):
-    result =[]
+    list_int = []
     for word in array:
-        result.append(len(word))
-    return result
-
+        int_word = len(word)
+        list_int.append(int_word)
+    return list_int
+'''
+correction
+def length_words(array):
+    return map(array, lambda x: x.length)
+    return 
+'''
 #write fizbuzz programm
 def fizbuzz():
-    for i in range (1,200):
-        if i % 3 == 0 and i % 5 ==0:
-            print('FizzBuzz')
-        elif i % 3 == 0:
+    for i in range(20):
+        if i % 3 == 0:
             print('Fizz')
-        elif i % 5 == 0:
+        elif i %  5 == 0:
             print('Buzz')
+        elif i % 3 == 0 and i % 5 == 0:
+            print('FizzBuzz')
         else:
             print(i)
-    return
 
 #Write a function that takes a number and returns a list of its digits.
 def number2digits(number):
-    chiffres = []
-    for i in str(number):
-        chiffres.append(int(i))
-    return chiffres
+    return [x for x in str(number)]
+    
 
 #Write function that translates a text to Pig Latin and back.
 #English is translated to Pig Latin by taking the first letter of every word,
 #moving it to the end of the word and adding 'ay'
 def pigLatin(text):
-    return ' '.join([x[1:]+x[0] + "ay" for x in text.split(' ')]).capitalize()
-
+    splt=text.split(' ')
+    for word in splt:
+        first = word[0]
+        word = word[1:] + first + 'ay'
+        return word
+    
 #Write a proramm that returna dictionary of occurences of the alphabet for a given string.
 # Test it with the Lorem upsuj
 #"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 def occurences(text):
-    result = {}
-    for word in text:
-        result[word]=result.get(word,0)+1
-    return result
+    countletters = {}
+    l = len(text)
+    for i in range (l):
+        text[i]=text[i].lower()
+        if text[i] not in countletters:
+            countletters[i] = 1
+        else:
+            countletters[i] += 1
+    return countletters
 
 # Here's our "unit tests".
 class Lesson1Tests(unittest.TestCase):
@@ -111,3 +112,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
