@@ -12,7 +12,8 @@ def string_times(string, n):
 def array_front9(nums):
     longueur = min(len(nums) & 4)
     for i in range(1, longueur):
-        if i == 9 return True
+        if i == 9:
+            return True
     return
 
 
@@ -48,7 +49,8 @@ def fizbuzz():
             print('Fizz')
         elif i % 5 == 0:
             print('Buzz')
-        else print i
+        else:
+            print(i)
     return
 
 #Write a function that takes a number and returns a list of its digits.
@@ -56,7 +58,7 @@ def number2digits(number):
     chiffres = []
     for i in str(number):
         chiffres.append(i)
-  return chiffres
+    return chiffres
 
 #Write function that translates a text to Pig Latin and back.
 #English is translated to Pig Latin by taking the first letter of every word,
@@ -64,7 +66,7 @@ def number2digits(number):
 def pigLatin(text):
     for word in text.split():
 
-  return
+    return
 
 #Write a proramm that returna dictionary of occurences of the alphabet for a given string.
 # Test it with the Lorem upsuj
