@@ -1,0 +1,7 @@
+#!/bin/bash
+echo copy starts
+cp -a /home/vaio/Documents/google-python-exercises/basic/. /home/vaio/Documents/INFMDI721/Guillaume-Hattenberger/
+rm -rf /home/vaio/Documents/INFMDI721/Guillaume-Hattenberger/solution
+rm /home/vaio/Documents/INFMDI721/Guillaume-Hattenberger/NOTICE.txt
+echo copy stops
+exit 0
