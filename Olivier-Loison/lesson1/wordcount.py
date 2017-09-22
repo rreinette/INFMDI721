@@ -1,6 +1,4 @@
 #!/usr/bin/python -tt
-# -*- coding: utf-8 -*-
-
 # Copyright 2010 Google Inc.
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
@@ -39,39 +37,6 @@ print_words() and print_top().
 
 """
 
-
-def readFileAndReturnOrderedWordCounts(filename):
-    f = open(filename, "rU")
-    dico = {}
-    for line in f:
-        w = ""
-        for l in line:
-            # on a un souci avec les caractères spéciaux, par exemple 'ç'
-            # 'ç'.isalpha() renvoie false!! (le fichier et mon os sont en utf-8
-            # locale fr
-            if(l.isalpha()):
-                w += l.lower()
-            else:
-                if(len(w) > 0):
-                    if(w in dico):
-                        dico[w] += 1
-                    else:
-                        dico[w] = 1
-                    w = ""
-    return sorted(dico.items(), key=lambda s: int(s[1]), reverse=True)
-
-
-def print_words(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico:
-        print(elem[0] + " " + str(elem[1]))
-
-
-def print_top(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico[:20]:
-        print(elem[0] + " " + str(elem[1]))
-
 import sys
 
 # +++your code here+++
@@ -81,7 +46,44 @@ import sys
 # Then print_words() and print_top() can just call the utility function.
 
 ###
+def sort_by_count(item):
+    return -item[1]
 
+def sort_by_word(item):
+    return item[0]
+
+def counter(filename, stop, sort_mode):
+    """implements a print_words(filename) function that counts
+        how often each word appears in the text and prints:
+        word1 count1
+        word2 count2
+    """
+    f = open(filename, 'rU')
+    words = f.read().lower().split()
+    f.close()
+    
+    dic = {}
+    for w in words:
+        if w in dic:
+            dic[w] += 1
+        else:
+            dic[w] = 1
+            
+    if stop == 0:
+        stop = len(dic)
+    cpt = 0
+    for k, v in sorted(dic.items(), key=sort_mode):
+        cpt = cpt + 1
+        print k, v
+        if cpt > stop:
+            break
+
+def print_words(filename):
+    counter(filename, 0, sort_by_word)
+
+def print_top(filename):
+    counter(filename, 20, sort_by_count)
+        
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 def main():

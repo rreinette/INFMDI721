@@ -1,6 +1,4 @@
 #!/usr/bin/python -tt
-# -*- coding: utf-8 -*-
-
 # Copyright 2010 Google Inc.
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
@@ -39,39 +37,6 @@ print_words() and print_top().
 
 """
 
-
-def readFileAndReturnOrderedWordCounts(filename):
-    f = open(filename, "rU")
-    dico = {}
-    for line in f:
-        w = ""
-        for l in line:
-            # on a un souci avec les caractères spéciaux, par exemple 'ç'
-            # 'ç'.isalpha() renvoie false!! (le fichier et mon os sont en utf-8
-            # locale fr
-            if(l.isalpha()):
-                w += l.lower()
-            else:
-                if(len(w) > 0):
-                    if(w in dico):
-                        dico[w] += 1
-                    else:
-                        dico[w] = 1
-                    w = ""
-    return sorted(dico.items(), key=lambda s: int(s[1]), reverse=True)
-
-
-def print_words(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico:
-        print(elem[0] + " " + str(elem[1]))
-
-
-def print_top(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico[:20]:
-        print(elem[0] + " " + str(elem[1]))
-
 import sys
 
 # +++your code here+++
@@ -80,7 +45,39 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
-###
+
+def word_count_dict(filename):
+  word_count = {} 
+  input_file = open(filename, 'r')
+  for line in input_file:
+    words = line.split()
+    for word in words:
+      word = word.lower()
+      if not word in word_count:
+        word_count[word] = 1
+      else:
+        word_count[word] = word_count[word] + 1
+  input_file.close()  
+  return word_count
+
+
+def print_words(filename):
+  word_count = word_count_dict(filename)
+  words = sorted(word_count.keys())
+  for word in words:
+    print word, word_count[word]
+
+
+def get_count(word_count_tuple):
+  return word_count_tuple[1]
+
+
+def print_top(filename):
+  word_count = word_count_dict(filename)
+  items = sorted(word_count.items(), key=get_count, reverse=True)
+  for item in items[:20]:
+    print item[0], item[1]
+
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.

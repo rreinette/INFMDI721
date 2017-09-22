@@ -1,6 +1,4 @@
 #!/usr/bin/python -tt
-# -*- coding: utf-8 -*-
-
 # Copyright 2010 Google Inc.
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
@@ -39,39 +37,6 @@ print_words() and print_top().
 
 """
 
-
-def readFileAndReturnOrderedWordCounts(filename):
-    f = open(filename, "rU")
-    dico = {}
-    for line in f:
-        w = ""
-        for l in line:
-            # on a un souci avec les caractères spéciaux, par exemple 'ç'
-            # 'ç'.isalpha() renvoie false!! (le fichier et mon os sont en utf-8
-            # locale fr
-            if(l.isalpha()):
-                w += l.lower()
-            else:
-                if(len(w) > 0):
-                    if(w in dico):
-                        dico[w] += 1
-                    else:
-                        dico[w] = 1
-                    w = ""
-    return sorted(dico.items(), key=lambda s: int(s[1]), reverse=True)
-
-
-def print_words(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico:
-        print(elem[0] + " " + str(elem[1]))
-
-
-def print_top(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico[:20]:
-        print(elem[0] + " " + str(elem[1]))
-
 import sys
 
 # +++your code here+++
@@ -81,9 +46,67 @@ import sys
 # Then print_words() and print_top() can just call the utility function.
 
 ###
-
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
+
+
+# count_words_inFile(filename)
+# Given the file name, the function count how often each word ppears
+# and return a dict ( key = word, value = count)
+
+
+def count_words_inFile(filename):
+    
+    wordList = []
+    wordcounts= {}
+    
+    myfile = open(filename, 'rU')
+    for line in myfile:
+        wordList = line.split()
+        for word in wordList:
+            count = wordcounts.get(word.lower(),0)
+            wordcounts[word.lower()] = count + 1
+        
+    myfile.close()
+    
+   
+    return wordcounts
+
+# print_words(filename)
+# Given the file name, the function count how often each word ppears
+# in the text and prints them as below
+#word1 count1
+#word2 count2
+
+def print_words(filename):
+    
+    words = count_words_inFile(filename)
+
+    for word , count in sorted(words.items()):
+        print word + ' ' + str(count)
+
+
+## This will be the key function (takes the item ( word,count) return count
+def sortwords_byCount(wordcount):
+    return wordcount[1]
+
+  
+# print_top(filename) 
+#Similarily to print_words and given the file name, the function 
+#will print just the top 20 most common words sorted so the most
+# common word is first, then the next most common, and so on.
+
+
+def print_top(filename):
+    
+    words = count_words_inFile(filename)
+
+    
+    for word , count in \
+        sorted(words.items(),reverse = True, key=sortwords_byCount)[:20]:
+        print word + ' ' + str(count)
+
+
 def main():
   if len(sys.argv) != 3:
     print 'usage: ./wordcount.py {--count | --topcount} file'

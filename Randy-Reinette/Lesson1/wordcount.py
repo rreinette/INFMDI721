@@ -1,6 +1,4 @@
 #!/usr/bin/python -tt
-# -*- coding: utf-8 -*-
-
 # Copyright 2010 Google Inc.
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
@@ -39,39 +37,6 @@ print_words() and print_top().
 
 """
 
-
-def readFileAndReturnOrderedWordCounts(filename):
-    f = open(filename, "rU")
-    dico = {}
-    for line in f:
-        w = ""
-        for l in line:
-            # on a un souci avec les caractères spéciaux, par exemple 'ç'
-            # 'ç'.isalpha() renvoie false!! (le fichier et mon os sont en utf-8
-            # locale fr
-            if(l.isalpha()):
-                w += l.lower()
-            else:
-                if(len(w) > 0):
-                    if(w in dico):
-                        dico[w] += 1
-                    else:
-                        dico[w] = 1
-                    w = ""
-    return sorted(dico.items(), key=lambda s: int(s[1]), reverse=True)
-
-
-def print_words(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico:
-        print(elem[0] + " " + str(elem[1]))
-
-
-def print_top(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico[:20]:
-        print(elem[0] + " " + str(elem[1]))
-
 import sys
 
 # +++your code here+++
@@ -80,6 +45,35 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
+def utility(filename):
+ f = open(filename, 'r')
+ wordList = f.read().lower().split()
+
+ wordCount = dict()
+ for word in wordList:
+  if word not in wordCount.keys():
+   wordCount[word] = 0
+  wordCount[word] += 1 
+ return wordCount
+ 
+def print_words(filename):
+ wordCount = utility(filename)
+ for word in sorted(wordCount.keys()):
+  print word + ' ' + str(wordCount[word])
+ return
+
+def print_top(filename):
+ wordCount = utility(filename)
+ def sortTuple(tup):
+  return tup[-1]
+ wordTuple = wordCount.items()
+ wordTuple = sorted(wordTuple, key= sortTuple)
+ rangeMax = len(wordCount)
+ if rangeMax > 20 : rangeMax = 20
+ for i in range(rangeMax):
+  print wordTuple[i][0] + " " + str(wordTuple[i][1])
+ return 
+  
 ###
 
 # This basic command line argument parsing code is provided and

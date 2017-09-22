@@ -1,6 +1,4 @@
 #!/usr/bin/python -tt
-# -*- coding: utf-8 -*-
-
 # Copyright 2010 Google Inc.
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
@@ -39,40 +37,38 @@ print_words() and print_top().
 
 """
 
-
-def readFileAndReturnOrderedWordCounts(filename):
-    f = open(filename, "rU")
-    dico = {}
-    for line in f:
-        w = ""
-        for l in line:
-            # on a un souci avec les caractères spéciaux, par exemple 'ç'
-            # 'ç'.isalpha() renvoie false!! (le fichier et mon os sont en utf-8
-            # locale fr
-            if(l.isalpha()):
-                w += l.lower()
-            else:
-                if(len(w) > 0):
-                    if(w in dico):
-                        dico[w] += 1
-                    else:
-                        dico[w] = 1
-                    w = ""
-    return sorted(dico.items(), key=lambda s: int(s[1]), reverse=True)
-
-
-def print_words(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico:
-        print(elem[0] + " " + str(elem[1]))
-
-
-def print_top(filename):
-    dico = readFileAndReturnOrderedWordCounts(filename)
-    for elem in dico[:20]:
-        print(elem[0] + " " + str(elem[1]))
-
 import sys
+
+def print_words(filename) : 
+  words_occ = read_file_and_load_dic(filename)
+  ordered_words = sorted (words_occ.items(), key = lambda t:t[0])
+  for (word, count) in ordered_words : 
+    print (word+" "+str(count)+"\n")
+  
+
+def print_top(filename) :
+  words_occ =  read_file_and_load_dic(filename)
+  ordered_words = sorted(words_occ.items(), key= lambda t:t[1])
+  for (word,count)in ordered_words[:20] :
+    print (word+" "+str(count)+"\n") 
+
+
+def read_file_and_load_dic(filename):
+
+
+  word_occ ={}
+  with open(filename,"r") as f:
+    line = f.readline()
+    while line: 
+      for word in line.split(" ") :
+        new_word = word.strip().lower() 
+        if new_word in word_occ : 
+          word_occ[new_word]+=1
+        else : 
+          word_occ[new_word] = 1
+      line = f.readline()
+  return word_occ
+
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
