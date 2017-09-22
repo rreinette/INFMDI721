@@ -38,22 +38,19 @@ def length_words(array):
 
 #write fizbuzz programm
 def fizbuzz():
-    
+    print ('Fizz'*(i%3<1)+'Buzz'*(i%5<1) or i for i in range(1,101))
     return
 
 #Write a function that takes a number and returns a list of its digits.
 def number2digits(number):
-
-  return list(str(number))
+    [x for x in str(number)]
+  return 
 
 #Write function that translates a text to Pig Latin and back.
 #English is translated to Pig Latin by taking the first letter of every word,
 #moving it to the end of the word and adding 'ay'
 def pigLatin(text):
-    t = text.split()
-    for w in t :
-        w =w[1::]+w[0]+'ay'
-  return t
+    return ' '.join([x[1::]+x[0] + 'ay' for x in text.split(' ')])
 
 #Write a proramm that returna dictionary of occurences of the alphabet for a given string.
 # Test it with the Lorem upsuj
