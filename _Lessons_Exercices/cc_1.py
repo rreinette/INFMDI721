@@ -33,7 +33,7 @@ def last2(string):
 #Write a program that maps a list of words into a list of
 #integers representing the lengths of the correponding words.
 def length_words(array):
-    l=()
+    l=[]
     for w in array:
         l.append(len(w))
     ##map(array, lambda x: len(x))
