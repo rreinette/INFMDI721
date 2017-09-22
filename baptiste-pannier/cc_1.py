@@ -48,12 +48,13 @@ def length_words(array):
 # write fizbuzz programm
 
 
-# def fizbuzz():
+def fizbuzz():
 
-
-# return
+    return
 
 # Write a function that takes a number and returns a list of its digits.
+
+
 def number2digits(number):
     nbr_str = str(number)
     myList = []
