@@ -13,7 +13,7 @@ def array_front9(nums):
     for i in range(0, len(nums)):
         if nums[i] == 9:
             return True
-
+  
 
 # Given a string, return the count of the number of times
 # that a substring length 2 appears  in the string and also as
@@ -30,31 +30,39 @@ def length_words(array):
         int_word = len(word)
         list_int.append(int_word)
     return list_int
-
+'''
+correction
+def length_words(array):
+    return map(array, lambda x: x.length)
+    return 
+'''
 #write fizbuzz programm
-def fizbuzz(num):
-    if num % 3 == 0:
-      return 'Fizz'
-    elif num %  5 == 0:
-      return 'Buzz'
-    elif num % 3 == 0 and num % 5 == 0:
-      return 'FizzBuzz'
+def fizbuzz():
+    for i in range(20):
+        if i % 3 == 0:
+            print('Fizz')
+        elif i %  5 == 0:
+            print('Buzz')
+        elif i % 3 == 0 and i % 5 == 0:
+            print('FizzBuzz')
+        else:
+            print(i)
 
 #Write a function that takes a number and returns a list of its digits.
 def number2digits(number):
-    digits = list(number)
-    return digits
+    return [x for x in str(number)]
+    
 
 #Write function that translates a text to Pig Latin and back.
 #English is translated to Pig Latin by taking the first letter of every word,
 #moving it to the end of the word and adding 'ay'
 def pigLatin(text):
-    splt=text.split()
+    splt=text.split(' ')
     for word in splt:
         first = word[0]
         word = word[1:] + first + 'ay'
-    return text
-
+        return word
+    
 #Write a proramm that returna dictionary of occurences of the alphabet for a given string.
 # Test it with the Lorem upsuj
 #"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
