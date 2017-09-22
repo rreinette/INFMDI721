@@ -5,64 +5,71 @@ import unittest
 # that is n copies of the original string.
 
 def string_times(string, n):
-    if n > 0:
-        return string * n
-    else:
-        print ( "n est inferieur à 0")
+    return n*string
+
 # Given an array of ints, return True if one of the first 4 elements
 # in the array is a 9. The array length may be less than 4.
 def array_front9(nums):
-    leng = num.length
-        for i in range(0,leng):
-            if i<=3 and num[i] == 4:
-                return True
-            else:
-                return False
+    #longueur=min(len(nums) & 4)
+    count = False
+    for n in nums[:3]:
+        if n == 9:
+            count = True
+    return count
+
 
 # Given a string, return the count of the number of times
 # that a substring length 2 appears  in the string and also as
 # the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
 def last2(string):
-    substr = string[-2:]
-    count=0
-    for i in range (0, string.length-3)
-        if string[i:i+2] == pattern:
-            count+=1
-    return
+    c = 0
+    s1 = string[-2:]
+    s2 = string[:-2]
+    if s1 in s2:
+        c += 1
+    return c
 
 
 #Write a program that maps a list of words into a list of
 #integers representing the lengths of the correponding words.
 def length_words(array):
-    return map(array, lambda x: x.length)
+    len_array = []
+    for a in array:
+        len_array.append(len(a))
+    return len_array
 
 #write fizbuzz programm
 def fizbuzz():
-    print ('Fizz'*(i%3<1)+'Buzz'*(i%5<1) or i for i in range(1,101))
     return
 
 #Write a function that takes a number and returns a list of its digits.
 def number2digits(number):
-    [x for x in str(number)]
-  return 
+    number = str(number)
+    decompose_number_list =  []
+    for n in number:
+         decompose_number_list.append(int(n))
+    return decompose_number_list
 
 #Write function that translates a text to Pig Latin and back.
 #English is translated to Pig Latin by taking the first letter of every word,
 #moving it to the end of the word and adding 'ay'
 def pigLatin(text):
-    return ' '.join([x[1::]+x[0] + 'ay' for x in text.split(' ')])
+    text = text.lower()
+    new_text = ""
+    i = 0
+    for t in text.split():
+        if i == 0:
+            new_text += t[1].upper() + t[2:] + t[0] + "ay"
+            i = 1
+        else:
+            new_text += " " + t[1] + t[2:] + t[0] + "ay"
+    return new_text
 
 #Write a proramm that returna dictionary of occurences of the alphabet for a given string.
 # Test it with the Lorem upsuj
 #"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 def occurences(text):
-    d=dict()
-    for w in text:
-        if w in d:
-            d[w]+=1
-        else:
-            d[w]=1        
-  return d
+  return
 
 # Here's our "unit tests".
 class Lesson1Tests(unittest.TestCase):
@@ -100,4 +107,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
