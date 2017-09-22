@@ -45,43 +45,50 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
-def read_file(filename):
-  file = open(filename, "r")
-  return file.read()
+###
+def sort_by_count(item):
+    return -item[1]
 
-def count_words(filename):
-  words = read_file(filename).split()
-  word_dic = {}
-  for word in words:
-    lower = word.lower()
-    if lower in word_dic:
-      word_dic[lower] += 1
-    else:
-      word_dic[lower] = 1
-  return word_dic
+def sort_by_word(item):
+    return item[0]
+
+def counter(filename, stop, sort_mode):
+    """implements a print_words(filename) function that counts
+        how often each word appears in the text and prints:
+        word1 count1
+        word2 count2
+    """
+    f = open(filename, 'rU')
+    words = f.read().lower().split()
+    f.close()
+    
+    dic = {}
+    for w in words:
+        if w in dic:
+            dic[w] += 1
+        else:
+            dic[w] = 1
+            
+    if stop == 0:
+        stop = len(dic)
+    cpt = 0
+    for k, v in sorted(dic.items(), key=sort_mode):
+        cpt = cpt + 1
+        print k, v
+        if cpt > stop:
+            break
 
 def print_words(filename):
-  word_dic = count_words(filename)
-  keys = word_dic.keys()
-  keys.sort()
-  for word in keys:
-    count = word_dic[word]
-    print(word + " " + str(count))
+    counter(filename, 0, sort_by_word)
 
 def print_top(filename):
-  word_dic = count_words(filename)
-  sorted_list = sorted(word_dic.items(), key=lambda kvp: kvp[1], reverse=True)
-  for kvp in sorted_list[:20]:
-    print(kvp[0] + " " + str(kvp[1]))
-
-
-###
-
+    counter(filename, 20, sort_by_count)
+        
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 def main():
   if len(sys.argv) != 3:
-    print('usage: ./wordcount.py {--count | --topcount} file')
+    print 'usage: ./wordcount.py {--count | --topcount} file'
     sys.exit(1)
 
   option = sys.argv[1]
@@ -91,7 +98,7 @@ def main():
   elif option == '--topcount':
     print_top(filename)
   else:
-    print('unknown option: ' + option)
+    print 'unknown option: ' + option
     sys.exit(1)
 
 if __name__ == '__main__':

@@ -45,54 +45,72 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
-def read_file(filename):
-  file = open(filename, "r")
-  return file.read()
+def getWordsDictFromFile(filename):
+    file = open(filename, 'r')
+    wordDict = dict()
+    for line in file:
+        for word in line.split():
+            word = word.lower()
+            if word in wordDict:
+                wordDict[word] += 1
+            else:
+                wordDict[word] = 1
+    file.close()
+    return wordDict
 
-def count_words(filename):
-  words = read_file(filename).split()
-  word_dic = {}
-  for word in words:
-    lower = word.lower()
-    if lower in word_dic:
-      word_dic[lower] += 1
-    else:
-      word_dic[lower] = 1
-  return word_dic
 
 def print_words(filename):
-  word_dic = count_words(filename)
-  keys = word_dic.keys()
-  keys.sort()
-  for word in keys:
-    count = word_dic[word]
-    print(word + " " + str(count))
+    dico = getWordsDictFromFile(filename)
+    for key in sorted(dico.keys()):
+        print(key, dico[key])
+
 
 def print_top(filename):
-  word_dic = count_words(filename)
-  sorted_list = sorted(word_dic.items(), key=lambda kvp: kvp[1], reverse=True)
-  for kvp in sorted_list[:20]:
-    print(kvp[0] + " " + str(kvp[1]))
+    dico = getWordsDictFromFile(filename)
+    dico_tri = sorted(dico.items(), key=lambda dico:dico[1], reverse=True)
+    if len(dico_tri) < 20:
+        for el in dico_tri:
+            print(el[0], el[1])
+    else:
+        for el in dico_tri[:20]:
+            print(el[0], el[1])
+  
+    
+    
+    
+## TEST ##
+##########
+            
+fs = './small.txt'
+fl = './alice.txt'
+
+print_words(fl)
+print()
+print()
+print_top(fl)
 
 
-###
 
-# This basic command line argument parsing code is provided and
-# calls the print_words() and print_top() functions which you must define.
-def main():
-  if len(sys.argv) != 3:
-    print('usage: ./wordcount.py {--count | --topcount} file')
-    sys.exit(1)
 
-  option = sys.argv[1]
-  filename = sys.argv[2]
-  if option == '--count':
-    print_words(filename)
-  elif option == '--topcount':
-    print_top(filename)
-  else:
-    print('unknown option: ' + option)
-    sys.exit(1)
 
-if __name__ == '__main__':
-  main()
+####
+#
+## This basic command line argument parsing code is provided and
+## calls the print_words() and print_top() functions which you must define.
+#def main():
+#  if len(sys.argv) != 3:
+#    print('usage: ./wordcount.py {--count | --topcount} file')
+#    sys.exit(1)
+#
+#  option = sys.argv[1]
+#  filename = sys.argv[2]
+#  if option == '--count':
+#    print_words(filename)
+#  elif option == '--topcount':
+#    print_top(filename)
+#  else:
+#    print('unknown option: ' + option)
+#    sys.exit(1)
+#
+#if __name__ == '__main__':
+#  main()
