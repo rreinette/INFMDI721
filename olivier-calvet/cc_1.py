@@ -19,7 +19,16 @@ def array_front9(nums):
 # that a substring length 2 appears  in the string and also as
 # the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
 def last2(string):
-    return string.count(string[-2:], 0, -2)
+    #    return string.count(string[-2:], 0, -2)
+    if len(string) < 2 :
+        return
+
+    pattern = string[-2:]
+    total = 0
+    for i in range(len(string) - 3):
+        if string[i: i + 2] == pattern:
+            total += 1
+    return total
 
 
 # Write a program that maps a list of words into a list of
@@ -29,8 +38,9 @@ def length_words(array):
 
 
 # write fizbuzz programm
-def fizbuzz():
-    return
+def fizbuzz(n):
+    return "\n".join("Fizz" * (i % 3 == 0) + "Buzz" * (i % 5 == 0) or str(i) for i in range(1, n))
+
 
 
 # Write a function that takes a number and returns a list of its digits.
@@ -42,8 +52,7 @@ def number2digits(number):
 # English is translated to Pig Latin by taking the first letter of every word,
 # moving it to the end of the word and adding 'ay'
 def pigLatin(text):
-
-    return " ".join([ word[1:] + word[0] + "ay" for word in text.split()])
+    return " ".join([word[1:] + word[0] + "ay" for word in text.split()]).capitalize()
 
 
 # Write a proramm that returna dictionary of occurences of the alphabet for a given string.
@@ -51,18 +60,18 @@ def pigLatin(text):
 # "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 def occurences(text):
     to_return = {}
-    for c in text :
-        if str.isalpha(c) :
-            if c in to_return :
+    for c in text:
+        if str.isalpha(c):
+            if c in to_return:
                 to_return[c] += 1
-            else :
+            else:
                 to_return[c] = 1
     return to_return
 
 
 # Here's our "unit tests".
 class Lesson1Tests(unittest.TestCase):
-    fizbuzz()
+    fizbuzz(101)
 
     def testArrayFront9(self):
         self.assertEqual(array_front9([1, 2, 9, 3, 4]), True)
