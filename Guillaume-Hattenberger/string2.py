@@ -31,8 +31,21 @@ def verbing(s):
 # So 'This dinner is not that bad!' yields:
 # This dinner is good!
 def not_bad(s):
-  # +++your code here+++
-  return
+
+    
+    try:
+        
+        index_not=s.index("not")
+        index_bad=s.index("bad")+3
+                    
+        if index_bad > index_not: 
+            substring=s[index_not:index_bad]
+            
+        return s.replace(substring,"good")
+    
+    except Exception: return s
+        
+        
 
 
 # F. front_back
@@ -43,8 +56,12 @@ def not_bad(s):
 # Given 2 strings, a and b, return a string of the form
 #  a-front + b-front + a-back + b-back
 def front_back(a, b):
-  # +++your code here+++
-  return
+    
+    
+    split_a=len(a)//2+len(a)%2
+    split_b=len(b)//2+len(b)%2
+
+    return a[:split_a] +b[:split_b]+a[split_a:]+b[split_b:]
 
 
 # Simple provided test() function used in main() to print
