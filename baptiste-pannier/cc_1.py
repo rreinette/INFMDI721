@@ -26,7 +26,7 @@ def array_front9(nums):
 def last2(string):
     # je ne comprends pas la question...
     count = 0
-    for i in range(0, string.length):
+    for i in range(0, len(string) - 1):
         f = string[i]
         l = string[i + 1]
         tot = f + l
