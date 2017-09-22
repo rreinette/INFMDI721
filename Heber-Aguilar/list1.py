@@ -21,12 +21,10 @@
 # and last chars of the string are the same.
 # Note: python does not have a ++ operator, but += works.
 def match_ends(words):
-  # +++your code here+++
   count = 0
-
-  for word in words :
-    if len(word) >= 2 and word[0] == word[-1]:
-      count += 1
+  for x in words:
+   if len(x)>=2 and x[0]==x[len(x)-1]:
+    count += 1
   return count
 
 
@@ -38,30 +36,20 @@ def match_ends(words):
 # Hint: this can be done by making 2 lists and sorting each of them
 # before combining them.
 def front_x(words):
-  # +++your code here+++
-
-  x_list = []
-  others_list = []
-
-  ## sort the words into two lists, depending on their first letter
-  for word in words:
-    if word[0] == 'x':
-      x_list.append(word)
+  list_x=[]
+  list_no_x=[]
+  list=[]
+  for x in words:
+    if x[0]=="x":
+        list_x.append(x)
     else:
-      others_list.append(word)
-
-  # sort each list
-  others_list_sorted = sorted(others_list)
-  x_list_sorted = sorted(x_list)
-
-  ## combine the sorted lists
-  output = x_list_sorted + others_list_sorted
-  return output
+        list_no_x.append(x)
+  list_x.sort()
+  list_no_x.sort()
+  list = list_x + list_no_x  
+  return list
 
 
-# Extract the last element from a tuple -- used for custom sorting below.
-def last(a):
-  return a[-1]
 
 # C. sort_last
 # Given a list of non-empty tuples, return a list sorted in increasing
@@ -69,9 +57,12 @@ def last(a):
 # e.g. [(1, 7), (1, 3), (3, 4, 5), (2, 2)] yields
 # [(2, 2), (1, 3), (3, 4, 5), (1, 7)]
 # Hint: use a custom key= function to extract the last element form each tuple.
+def last_tuplet_number(x):
+    return x[-1]
+
 def sort_last(tuples):
-  # +++your code here+++
-  return sorted(tuples, key=last)
+    list = sorted(tuples,key=last_tuplet_number)
+    return list
 
 
 # Simple provided test() function used in main() to print
@@ -81,28 +72,28 @@ def test(got, expected):
     prefix = ' OK '
   else:
     prefix = '  X '
-  print('%s got: %s expected: %s' % (prefix, repr(got), repr(expected)))
+  print( '%s got: %s expected: %s' % (prefix, repr(got), repr(expected)) )
 
 
 # Calls the above functions with interesting inputs.
 def main():
-  print('match_ends')
+  print 'match_ends'
   test(match_ends(['aba', 'xyz', 'aa', 'x', 'bbb']), 3)
   test(match_ends(['', 'x', 'xy', 'xyx', 'xx']), 2)
   test(match_ends(['aaa', 'be', 'abc', 'hello']), 1)
 
-  print()
-  print('front_x')
+  print
+  print 'front_x'
   test(front_x(['bbb', 'ccc', 'axx', 'xzz', 'xaa']),
        ['xaa', 'xzz', 'axx', 'bbb', 'ccc'])
   test(front_x(['ccc', 'bbb', 'aaa', 'xcc', 'xaa']),
        ['xaa', 'xcc', 'aaa', 'bbb', 'ccc'])
   test(front_x(['mix', 'xyz', 'apple', 'xanadu', 'aardvark']),
-       ['xanadu', 'xyz', 'aardvark', 'apple', 'mix's])
+       ['xanadu', 'xyz', 'aardvark', 'apple', 'mix'])
 
        
-  print()
-  print('sort_last')
+  print
+  print 'sort_last'
   test(sort_last([(1, 3), (3, 2), (2, 1)]),
        [(2, 1), (3, 2), (1, 3)])
   test(sort_last([(2, 3), (1, 2), (3, 1)]),

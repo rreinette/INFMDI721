@@ -1,10 +1,20 @@
 #!/usr/bin/python -tt
-#
+# Copyright 2010 Google Inc.
+# Licensed under the Apache License, Version 2.0
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Google's Python Class
+# http://code.google.com/edu/languages/google-python-class/
 
 # Basic string exercises
 # Fill in the code for the functions below. main() is already set up
 # to call the functions with a few different inputs,
-#jhdjhshdhsdh
+# printing 'OK' when each function is correct.
+# The starter code for each function includes a 'return'
+# which is just a placeholder for your code.
+# It's ok if you do not complete all the functions, and there
+# are some additional functions to try in string2.py.
+
 
 # A. donuts
 # Given an int count of a number of donuts, return a string
@@ -15,10 +25,14 @@
 # and donuts(23) returns 'Number of donuts: many'
 def donuts(count):
   # +++your code here+++
-  var = "Number of donuts: "
-  if count >= 10: var+="many"
-  else : var+=str(count)
-  return var
+
+  if count < 10 :
+     donuts_count = "Number of donuts: " +  str(count);
+  else :
+     donuts_count = "Number of donuts: many" ;
+      
+  return donuts_count
+
 
 
 # B. both_ends
@@ -27,10 +41,14 @@ def donuts(count):
 # so 'spring' yields 'spng'. However, if the string length
 # is less than 2, return instead the empty string.
 def both_ends(s):
-  
-    if len (s) < 2 : return ""
-    return s[0:2]+s[-2:] 
-    
+  # +++your code here+++
+  if len(s) > 2 :
+     part1 = s[:2];
+     part2 = s[-2:];
+  else :
+     part1 ="";
+     part2="";
+  return (part1 + part2)
 
 
 # C. fix_start
@@ -42,11 +60,20 @@ def both_ends(s):
 # Assume that the string is length 1 or more.
 # Hint: s.replace(stra, strb) returns a version of string s
 # where all instances of stra have been replaced by strb.
+#%%
 def fix_start(s):
-  
-  return s[0]+s[1:].replace(s[0],'*')
+  # +++your code here+++
+  #don't use list just string
+  if len(s) > 1 :
+     tmp = s[0];
+     t=s[1:];
+     t=t.replace(tmp,"*");
+     t=tmp+t;
+  else : 
+      t = "";
+  return t
 
-
+#%%
 # D. MixUp
 # Given strings a and b, return a single string with a and b separated
 # by a space '<a> <b>', except swap the first 2 chars of each string.
@@ -55,8 +82,11 @@ def fix_start(s):
 #   'dog', 'dinner' -> 'dig donner'
 # Assume a and b are length 2 or more.
 def mix_up(a, b):
-  
-  return b[0:2]+a[2:]+" "+a[0:2]+b[2:]
+  # +++your code here+++
+  sa = a[:2];
+  sb = b[:2];
+  out = sb + a[2:] + " " + sa + b[2:];
+  return out
 
 
 # Provided simple test() function used in main() to print

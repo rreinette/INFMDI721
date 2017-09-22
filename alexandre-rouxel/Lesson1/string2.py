@@ -6,6 +6,7 @@
 # Google's Python Class
 # http://code.google.com/edu/languages/google-python-class/
 
+import math as m
 # Additional basic string exercises
 
 # D. verbing
@@ -16,10 +17,17 @@
 # If the string length is less than 3, leave it unchanged.
 # Return the resulting string.
 def verbing(s):
-  if len(s) <=3: return s
-  if "ing" in s : return s+"ly"
-  
-  return s+"ing"
+  # +++your code here+++
+  if len(s)>2 : 
+      get_end = s[-3:];
+      if get_end == "ing":
+         out = s+"ly";
+      else : 
+          out = s+"ing";
+  else : 
+      out = s;
+      
+  return out
 
 
 # E. not_bad
@@ -31,21 +39,13 @@ def verbing(s):
 # So 'This dinner is not that bad!' yields:
 # This dinner is good!
 def not_bad(s):
-
-    
-    try:
-        
-        index_not=s.index("not")
-        index_bad=s.index("bad")+3
-                    
-        if index_bad > index_not: 
-            substring=s[index_not:index_bad]
-            
-        return s.replace(substring,"good")
-    
-    except Exception: return s
-        
-        
+  # +++your code here+++
+  nidx=s.find("not");
+  bidx=s.find("bad");
+  if (nidx==-1) or (bidx==-1) or (nidx>bidx):
+     return s ;
+  else :
+      return s[:nidx] + "good" +s[bidx+3:];
 
 
 # F. front_back
@@ -56,12 +56,14 @@ def not_bad(s):
 # Given 2 strings, a and b, return a string of the form
 #  a-front + b-front + a-back + b-back
 def front_back(a, b):
-    
-    
-    split_a=len(a)//2+len(a)%2
-    split_b=len(b)//2+len(b)%2
+  # +++your code here+++
 
-    return a[:split_a] +b[:split_b]+a[split_a:]+b[split_b:]
+  a_front = a[:m.ceil(len(a)/2)];
+  a_back = a[m.ceil(len(a)/2):]
+  b_front = b[:m.ceil(len(b)/2)];
+  b_back = b[m.ceil(len(b)/2):]
+
+  return (a_front + b_front + a_back + b_back)
 
 
 # Simple provided test() function used in main() to print

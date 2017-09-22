@@ -16,63 +16,44 @@
 # are some additional functions to try in list2.py.
 
 # A. match_ends
-# Given a list of strings, return the count of the number of
-# strings where the string length is 2 or more and the first
-# and last chars of the string are the same.
-# Note: python does not have a ++ operator, but += works.
 def match_ends(words):
-  # +++your code here+++
+  """Given a list of strings, returns the count of the number of strings
+  where the string length is 2 or more and the first and last chars of
+  the string are the same."""
   count = 0
-
-  for word in words :
-    if len(word) >= 2 and word[0] == word[-1]:
-      count += 1
-  return count
-
+  try:
+    count = len([w for w in words if len(w) > 1 and w[0] == w[-1]])
+  except ValueError:
+    pass
+  finally:
+    return count
 
 # B. front_x
-# Given a list of strings, return a list with the strings
-# in sorted order, except group all the strings that begin with 'x' first.
-# e.g. ['mix', 'xyz', 'apple', 'xanadu', 'aardvark'] yields
-# ['xanadu', 'xyz', 'aardvark', 'apple', 'mix']
-# Hint: this can be done by making 2 lists and sorting each of them
-# before combining them.
 def front_x(words):
-  # +++your code here+++
-
-  x_list = []
-  others_list = []
-
-  ## sort the words into two lists, depending on their first letter
-  for word in words:
-    if word[0] == 'x':
-      x_list.append(word)
-    else:
-      others_list.append(word)
-
-  # sort each list
-  others_list_sorted = sorted(others_list)
-  x_list_sorted = sorted(x_list)
-
-  ## combine the sorted lists
-  output = x_list_sorted + others_list_sorted
-  return output
-
-
-# Extract the last element from a tuple -- used for custom sorting below.
-def last(a):
-  return a[-1]
+  """Given a list of strings, returns a list with the strings in sorted order,
+  except group all the strings that begin with 'x' first.
+  e.g. ['mix', 'xyz', 'apple', 'xanadu', 'aardvark'] yields ['xanadu', 'xyz', 'aardvark', 'apple', 'mix']"""
+  sorted_list = [] 
+  try:
+    x_list = [w for w in words if w.startswith('x')]
+    others_list = [w for w in words if w not in x_list]
+    x_list.sort()
+    others_list.sort()
+    sorted_list = x_list + others_list 
+  except ValueError:
+    pass
+  finally:
+    return sorted_list
 
 # C. sort_last
-# Given a list of non-empty tuples, return a list sorted in increasing
-# order by the last element in each tuple.
-# e.g. [(1, 7), (1, 3), (3, 4, 5), (2, 2)] yields
-# [(2, 2), (1, 3), (3, 4, 5), (1, 7)]
-# Hint: use a custom key= function to extract the last element form each tuple.
-def sort_last(tuples):
-  # +++your code here+++
-  return sorted(tuples, key=last)
 
+def sort_last(tuples):
+  """Given a list of non-empty tuples, returns a list sorted in increasing order by the last element in each tuple.
+  e.g. [(1, 7), (1, 3), (3, 4, 5), (2, 2)] yields [(2, 2), (1, 3), (3, 4, 5), (1, 7)]"""
+  try:
+    return sorted(tuples, key=lambda x: x[-1])
+  except ValueError:
+    return []
 
 # Simple provided test() function used in main() to print
 # what each function returns vs. what it's supposed to return.
@@ -98,7 +79,7 @@ def main():
   test(front_x(['ccc', 'bbb', 'aaa', 'xcc', 'xaa']),
        ['xaa', 'xcc', 'aaa', 'bbb', 'ccc'])
   test(front_x(['mix', 'xyz', 'apple', 'xanadu', 'aardvark']),
-       ['xanadu', 'xyz', 'aardvark', 'apple', 'mix's])
+       ['xanadu', 'xyz', 'aardvark', 'apple', 'mix'])
 
        
   print()

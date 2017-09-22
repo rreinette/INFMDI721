@@ -46,42 +46,35 @@ import sys
 # Then print_words() and print_top() can just call the utility function.
 
 ###
-def read_and_split(filename):
-    with open(filename) as f:
-        datas = f.read()
-    f.closed
-    return datas.split();
-
-def count_words(filename):
-    datas = read_and_split(filename)
-    count_words = dict()
-    for d in datas:
-        count = 0
-        if d.lower() in count_words:
-            count = count_words[d.lower()]
-        count_words[d.lower()] = count + 1
-    return count_words    
-
-def print_words(filename):
-    words_count = count_words(filename)
-
-    for key in sorted(words_count.keys()) :
-        print(key, words_count[key])
-
-    
-def print_top(filename):
-    words_count = count_words(filename)
-    words_count_reverted = sorted(words_count.items(), key=lambda x: x[1], reverse=True)
-
-    for w in words_count_reverted[:20]:
-        print(w[0])
-
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
+
+def print_words(filename):
+    
+    Dict={}
+    
+    input_file = open(filename, 'r')
+    for line in input_file:
+        words = line.split()
+        
+        for x in words :
+            if Dict[x] is None :
+               Dict[x]=1
+            else :
+                Dict [x]+=1
+            
+    
+    return Dict
+
+
+def print_top (filename):
+    return None
+
+
 def main():
   if len(sys.argv) != 3:
-    print 'usage: ./wordcount.py {--count | --topcount} file'
+    print ('usage: ./wordcount.py {--count | --topcount} small.txt')
     sys.exit(1)
 
   option = sys.argv[1]
@@ -91,7 +84,7 @@ def main():
   elif option == '--topcount':
     print_top(filename)
   else:
-    print 'unknown option: ' + option
+    print ('unknown option: ' + option)
     sys.exit(1)
 
 if __name__ == '__main__':
