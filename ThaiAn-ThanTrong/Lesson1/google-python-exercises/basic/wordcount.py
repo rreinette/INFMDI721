@@ -38,6 +38,7 @@ print_words() and print_top().
 """
 
 import sys
+import operator
 
 
 # +++your code here+++
@@ -46,58 +47,54 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
-def get_count(filename):
-    """create a dictionnary keys :word, values: count"""
-    #je retranscris mon fichier dans un str
-    with open(filename) as file:
-        texte=file.read()
-    #je split les mots dans une liste
-    liste_mot=texte.split()
-    
-    dico=dict()
-    #je parcours la liste de mot
-    for mot in liste_mot:
-        #j'ajoute +1 au count associé au mot, s'il n'existe pas encore dans le dict je l'instancie
-        try:
-            dico[mot]+=1
-        except(KeyError):
-            dico[mot]=0
-    return dico
+def utility(filename):
+    f = open(filename, 'r')
+    text = f.read().lower().split()
+
+    wordcount = dict()
+
+    for word in text:
+        if word not in wordcount.keys():
+            wordcount[word] = 0
+        wordcount[word] += 1
+    return wordcount
+
 
 def print_words(filename):
-    """Renvoie la liste des mots et leur count associé au fichier"""
-    dico=get_count(filename)
-    #j'affiche pour chaque tuple (cle,valeur) le mot et le count
-    for mot,valeur in dico.items():
-        print(mot,valeur)
-        
+    wordcount_dict = utility(filename)
+    for key in sorted(wordcount_dict.keys()):
+        print(key + ' ' + str(wordcount_dict[key]))
+    return
+
 def print_top(filename):
-    """Renvoie les 20 mots les plus communs et leur count"""
-    dico=get_count(filename)
-    #necessité de trier le dictionnaire selon ses valeurs
-    # => trie des tuples  (cle,valeur) selon leur valeur
-    dico_sorted=sorted(dico.items(),key=lambda tuple_item:tuple_item[1],reverse=True)
-    for i in range(0,20):
-        print(dico_sorted[i])
-        
-###
+    wordcount_dict = utility(filename)
+    sorted_wordcount = sorted(wordcount_dict.items(), key=operator.itemgetter(1), reverse=True)
+    lim = len(wordcount_dict)
+    if len(wordcount_dict) > 20:
+        lim = 20
+    for i in range(lim):
+        word, count = sorted_wordcount[i]
+        print(word + ' ' + str(count))
+    return
+
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 def main():
-  if len(sys.argv) != 3:
-    print ('usage: ./wordcount.py {--count | --topcount} file')
-    sys.exit(1)
+    if len(sys.argv) != 3:
+        print('usage: ./wordcount.py {--count | --topcount} file')
+        sys.exit(1)
 
     option = sys.argv[1]
     filename = sys.argv[2]
-    if (option == '--count'):
-        print_words("alice.txt")
-    elif (option == '--topcount'):
-       print_top("alice.txt")
+    if option == '--count':
+        print_words(filename)
+    elif option == '--topcount':
+        print_top(filename)
     else:
-       print ('unknown option: ' + option)
-       sys.exit(1)
+        print('unknown option: ' + option)
+        sys.exit(1)
+
 
 if __name__ == '__main__':
-  main()
+    main()

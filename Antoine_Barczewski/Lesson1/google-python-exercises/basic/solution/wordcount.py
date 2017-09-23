@@ -39,65 +39,76 @@ print_words() and print_top().
 
 import sys
 
-
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
 # You could write a helper utility function that reads a file
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
-def get_count(filename):
-    """create a dictionnary keys :word, values: count"""
-    #je retranscris mon fichier dans un str
-    with open(filename) as file:
-        texte=file.read()
-    #je split les mots dans une liste
-    liste_mot=texte.split()
-    
-    dico=dict()
-    #je parcours la liste de mot
-    for mot in liste_mot:
-        #j'ajoute +1 au count associé au mot, s'il n'existe pas encore dans le dict je l'instancie
-        try:
-            dico[mot]+=1
-        except(KeyError):
-            dico[mot]=0
-    return dico
+#### LAB(begin solution)
+
+def word_count_dict(filename):
+  """Returns a word/count dict for this filename."""
+  # Utility used by count() and Topcount().
+  word_count = {}  # Map each word to its count
+  input_file = open(filename, 'r')
+  for line in input_file:
+    words = line.split()
+    for word in words:
+      word = word.lower()
+      # Special case if we're seeing this word for the first time.
+      if not word in word_count:
+        word_count[word] = 1
+      else:
+        word_count[word] = word_count[word] + 1
+  input_file.close()  # Not strictly required, but good form.
+  return word_count
+
 
 def print_words(filename):
-    """Renvoie la liste des mots et leur count associé au fichier"""
-    dico=get_count(filename)
-    #j'affiche pour chaque tuple (cle,valeur) le mot et le count
-    for mot,valeur in dico.items():
-        print(mot,valeur)
-        
+  """Prints one per line '<word> <count>' sorted by word for the given file."""
+  word_count = word_count_dict(filename)
+  words = sorted(word_count.keys())
+  for word in words:
+    print word, word_count[word]
+
+
+def get_count(word_count_tuple):
+  """Returns the count from a dict word/count tuple  -- used for custom sort."""
+  return word_count_tuple[1]
+
+
 def print_top(filename):
-    """Renvoie les 20 mots les plus communs et leur count"""
-    dico=get_count(filename)
-    #necessité de trier le dictionnaire selon ses valeurs
-    # => trie des tuples  (cle,valeur) selon leur valeur
-    dico_sorted=sorted(dico.items(),key=lambda tuple_item:tuple_item[1],reverse=True)
-    for i in range(0,20):
-        print(dico_sorted[i])
-        
-###
+  """Prints the top count listing for the given file."""
+  word_count = word_count_dict(filename)
+
+  # Each item is a (word, count) tuple.
+  # Sort them so the big counts are first using key=get_count() to extract count.
+  items = sorted(word_count.items(), key=get_count, reverse=True)
+
+  # Print the first 20
+  for item in items[:20]:
+    print item[0], item[1]
+
+##### LAB(end solution)
+
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 def main():
   if len(sys.argv) != 3:
-    print ('usage: ./wordcount.py {--count | --topcount} file')
+    print 'usage: ./wordcount.py {--count | --topcount} file'
     sys.exit(1)
 
-    option = sys.argv[1]
-    filename = sys.argv[2]
-    if (option == '--count'):
-        print_words("alice.txt")
-    elif (option == '--topcount'):
-       print_top("alice.txt")
-    else:
-       print ('unknown option: ' + option)
-       sys.exit(1)
+  option = sys.argv[1]
+  filename = sys.argv[2]
+  if option == '--count':
+    print_words(filename)
+  elif option == '--topcount':
+    print_top(filename)
+  else:
+    print 'unknown option: ' + option
+    sys.exit(1)
 
 if __name__ == '__main__':
   main()

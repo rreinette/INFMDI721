@@ -12,13 +12,17 @@
 # all adjacent == elements have been reduced to a single element,
 # so [1, 2, 2, 3] returns [1, 2, 3]. You may create a new list or
 # modify the passed in list.
-
 def remove_adjacent(nums):
-  nonAdjacent = []
+  # +++your code here+++
+  # LAB(begin solution)
+  result = []
   for num in nums:
-      if nonAdjacent == [] or num != nonAdjacent[-1]:
-         nonAdjacent.append(num) 
-  return nonAdjacent
+    if len(result) == 0 or num != result[-1]:
+      result.append(num)
+  return result
+  # LAB(replace solution)
+  # return
+  # LAB(end solution)
 
 
 # E. Given two lists sorted in increasing order, create and return a merged
@@ -26,8 +30,24 @@ def remove_adjacent(nums):
 # Ideally, the solution should work in "linear" time, making a single
 # pass of both lists.
 def linear_merge(list1, list2):
-  return sorted(list1+list2)
-  
+  # +++your code here+++
+  # LAB(begin solution)
+  result = []
+  # Look at the two lists so long as both are non-empty.
+  # Take whichever element [0] is smaller.
+  while len(list1) and len(list2):
+    if list1[0] < list2[0]:
+      result.append(list1.pop(0))
+    else:
+      result.append(list2.pop(0))
+
+  # Now tack on what's left
+  result.extend(list1)
+  result.extend(list2)
+  return result
+  # LAB(replace solution)
+  # return
+  # LAB(end solution)
 
 # Note: the solution above is kind of cute, but unforunately list.pop(0)
 # is not constant time with the standard python list implementation, so
@@ -45,19 +65,18 @@ def test(got, expected):
     prefix = ' OK '
   else:
     prefix = '  X '
-  print('%s got: %s expected: %s' % (prefix, repr(got), repr(expected)))
+  print '%s got: %s expected: %s' % (prefix, repr(got), repr(expected))
 
 
 # Calls the above functions with interesting inputs.
-
 def main():
-  print('remove_adjacent')
+  print 'remove_adjacent'
   test(remove_adjacent([1, 2, 2, 3]), [1, 2, 3])
   test(remove_adjacent([2, 2, 3, 3, 3]), [2, 3])
   test(remove_adjacent([]), [])
 
   print
-  print('linear_merge')
+  print 'linear_merge'
   test(linear_merge(['aa', 'xx', 'zz'], ['bb', 'cc']),
        ['aa', 'bb', 'cc', 'xx', 'zz'])
   test(linear_merge(['aa', 'xx'], ['bb', 'cc', 'zz']),
