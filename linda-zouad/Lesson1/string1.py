@@ -37,7 +37,7 @@ def donuts(count):
 # is less than 2, return instead the empty string.
 def both_ends(s):
     if len(s)<2:
-        return " "
+        return ""
     else:
         s = s[:2]+s[-2:]
     return s
