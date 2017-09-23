@@ -19,8 +19,11 @@ def array_front9(nums):
 # that a substring length 2 appears  in the string and also as
 # the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
 def last2(string):
+    # If non overlapping substrings, this works fine :
     #    return string.count(string[-2:], 0, -2)
-    if len(string) < 2 :
+
+    # else use this thing
+    if len(string) < 2:
         return
 
     pattern = string[-2:]
@@ -40,7 +43,6 @@ def length_words(array):
 # write fizbuzz programm
 def fizbuzz(n):
     return "\n".join("Fizz" * (i % 3 == 0) + "Buzz" * (i % 5 == 0) or str(i) for i in range(1, n))
-
 
 
 # Write a function that takes a number and returns a list of its digits.
