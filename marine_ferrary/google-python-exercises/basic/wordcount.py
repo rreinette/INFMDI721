@@ -58,13 +58,15 @@ def read_file_and_load_dic(filename):
 
   word_occ ={}
   with open(filename,"r") as f:
-    for line in f.readlines() : 
+    line = f.readline()
+    while line: 
       for word in line.split(" ") :
         new_word = word.strip().lower() 
         if new_word in word_occ : 
           word_occ[new_word]+=1
         else : 
           word_occ[new_word] = 1
+      line = f.readline()
   return word_occ
 
 
