@@ -31,15 +31,14 @@ if __name__ == "__main__":
     tableau = {}
     url = "http://alize2.finances.gouv.fr/communes/eneuro/tableau.php"
     years = list(range(2009, 2014))
+    categories = ['A', 'B', 'C', 'D']
     params = {'ICOM': '056', 'DEP': '075', 'TYPE': 'BPS',
               'PARAM': 0, 'comm': 0}
-    for i in years:
-        params['EXERCICE'] = i
+    for year in years:
+        params['EXERCICE'] = year
         soup = BeautifulSoup(getWebDOM(url, params), 'html.parser')
         table = soup.select("table:nth-of-type(4)")[0]
-        getCategoryFigures(table, 'A', i)
-        getCategoryFigures(table, 'B', i)
-        getCategoryFigures(table, 'C', i)
-        getCategoryFigures(table, 'D', i)
+        for category in categories:
+            getCategoryFigures(table, category, year)
 
     pprint(tableau)
