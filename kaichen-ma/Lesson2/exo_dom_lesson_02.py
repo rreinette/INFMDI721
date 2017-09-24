@@ -2,9 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-### Count results for Paris from 2009 to 2013
+### Retait des données par web
 
-years = ['2010', '2011', '2012', '2013']
+years = ['2010', '2011', '2012', '2013', '2014', '2015']
 
 
 def getSoupFromURL(url, method='get', data={}):
