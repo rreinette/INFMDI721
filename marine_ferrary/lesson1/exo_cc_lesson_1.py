@@ -1,48 +1,41 @@
 import unittest
- #il le vim 
 
-# POUR RUNNER python filename 
-#Checher les sets
-#Checker zip map lambda
-#module unitest, SELFASSETEQUALNIANIANIA
-#UNITEST TOUJOURS on peut avoir un selfError!il faut essayer durtout avec les conditions limites
-#Check Test DRIVEN DEVELOPMENT
 
 # Given a string and a non-negative int n, return a larger string
 # that is n copies of the original string.
 
 def string_times(string, n):
-    return n*string
-#%%
+    return string*n
+
 # Given an array of ints, return True if one of the first 4 elements
 # in the array is a 9. The array length may be less than 4.
 def array_front9(nums):
-    #longueur=min(len(nums) & 4)
-    length = nums.length
-    for i in range(0,length):
-        if i <= 3 and nums[i] == 9:
+    longueur=min(len(nums), 4)
+    for i in range(4) : 
+        if nums[i]==9 :
             return True
-        return False
-#%%
+    return False 
+
 
 # Given a string, return the count of the number of times
 # that a substring length 2 appears  in the string and also as
 # the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
 def last2(string):
-    if string.length < 2:
-        return 
-    pattern = string[-2:]
-    count = 0 
-    for i in range(0, string.length-3):
-        if string [i:i+2]==pattern:
-            count +=1
-    return 
+    #count = 0
+    #for i in range (len(string)) :
+    #    if len(string[-2:])==string[i,i+2]:
+    a = list(zip(string[:-1],string[1:]))
+    return (a.count(a[-1])-1)
+
+
+    
+
 
 #Write a program that maps a list of words into a list of
 #integers representing the lengths of the correponding words.
 def length_words(array):
-    map(niania lambda)
-    return
+    return ([len(w) for w in array])
+    
 
 #write fizbuzz programm
 def fizbuzz():
@@ -50,23 +43,39 @@ def fizbuzz():
 
 #Write a function that takes a number and returns a list of its digits.
 def number2digits(number):
-  return
+    l=[]
+    a =  str(number)
+    for i in a :
+        l.append(int(i))
+    return l
+
+
 
 #Write function that translates a text to Pig Latin and back.
 #English is translated to Pig Latin by taking the first letter of every word,
 #moving it to the end of the word and adding 'ay'
 def pigLatin(text):
-    ' '.join([ (x[1:] + x [0] + 'ay' for x in test.split(' ')])
-  return
+    words =  text.split(" ")
+    text =""
+    for word in words : 
+        word+=word[0]+"ay"
+        text+=word[1:]+" "
+
+    return text
 
 #Write a proramm that returna dictionary of occurences of the alphabet for a given string.
 # Test it with the Lorem upsuj
 #"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 def occurences(text):
-    dictionnare = 'qwerty'
-    result = {}
-    [result[i] += 1 if result[i] else result[i] = for i in text]
-  return
+    words = text.split()
+    alphabet_count={}
+    for word in words : 
+        for car in word : 
+            if car in alphabet_count: 
+                alphabet_count[car]+=1
+            else : 
+                alphabet_count[0]=1
+    return alphabet_count
 
 # Here's our "unit tests".
 class Lesson1Tests(unittest.TestCase):
