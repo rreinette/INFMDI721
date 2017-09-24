@@ -13,7 +13,7 @@ def array_front9(nums):
     for i in range(4):
         if nums[i] == 9:
             return True    
-
+    return False 
 # Given a string, return the count of the number of times
 # that a substring length 2 appears  in the string and also as
 # the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
@@ -29,51 +29,49 @@ def length_words(array):
         int_word = len(word)
         list_int.append(int_word)
     return list_int
-'''
-correction
-def length_words(array):
-    return map(array, lambda x: x.length)
-    return 
-'''
+
 #write fizbuzz programm
 def fizbuzz():
     for i in range(20):
-        if i % 3 == 0:
-            print('Fizz')
+        if i % 15 == 0:
+            print('FizzBuzz')
         elif i %  5 == 0:
             print('Buzz')
-        elif i % 3 == 0 and i % 5 == 0:
-            print('FizzBuzz')
+        elif i % 3 == 0:
+            print('Fizz')
         else:
             print(i)
 
 #Write a function that takes a number and returns a list of its digits.
 def number2digits(number):
-    return [x for x in str(number)]
+    digits=[]
+    for x in str(number):
+        digits.append(int(x))
+    return digits
     
 
 #Write function that translates a text to Pig Latin and back.
 #English is translated to Pig Latin by taking the first letter of every word,
 #moving it to the end of the word and adding 'ay'
 def pigLatin(text):
+    pigLat=''
     splt=text.split(' ')
     for word in splt:
-        first = word[0]
-        word = word[1:] + first + 'ay'
-        return word
+        word = word[1:] + word[0] + 'ay'
+        pigLat.join(word)
+    return pigLat
     
 #Write a proramm that returna dictionary of occurences of the alphabet for a given string.
 # Test it with the Lorem upsuj
 #"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 def occurences(text):
     countletters = {}
-    l = len(text)
-    for i in range (l):
-        text[i]=text[i].lower()
-        if text[i] not in countletters:
-            countletters[i] = 1
+    text=text.lower().replace(' ', '')
+    for letter in text:
+        if letter not in countletters:
+            countletters[letter] = 1
         else:
-            countletters[i] += 1
+            countletters[letter] += 1
     return countletters
 
 # Here's our "unit tests".
