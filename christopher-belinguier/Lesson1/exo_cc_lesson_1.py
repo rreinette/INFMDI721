@@ -32,20 +32,18 @@ def last2(string):
 #Write a program that maps a list of words into a list of
 #integers representing the lengths of the correponding words.
 def length_words(array):
-    ma_liste = list()
-    for word in array:
-        ma_liste.append(len(word))
-    return ma_liste
+    return map(lambda x: x.length, array) # parralelisable pas comme un for !
 
 #write fizbuzz programm
 def fizbuzz():
-    
-    return
+    fiz = ('Fizz'*(i%3<1)+'Buzz'*(i%5<1) or i for i in range(1,101))
+    print(fiz)
+    return fiz
 
 #Write a function that takes a number and returns a list of its digits.
 def number2digits(number):
     ma_liste = list()
-    for n in number:
+    for n in str(number):
         ma_liste.append(n)
     return ma_liste
 
@@ -53,12 +51,14 @@ def number2digits(number):
 #English is translated to Pig Latin by taking the first letter of every word,
 #moving it to the end of the word and adding 'ay'
 def pigLatin(text):
-    words = text.split()
-    text2 = ""
-    for w in words:
-        text2 += w[1:] + w[0] + "ay"
-    return text2
-
+#    words = text.split()
+#    text2 = ""
+#    for w in words:
+#        text2 += w[1:] + w[0] + "ay"
+#    return text2
+    return ' '.join([ x[1:] + x[0] + 'ay' for x in text.split(' ')]).capitalize()
+    
+    
 #Write a proramm that returna dictionary of occurences of the alphabet for a given string.
 # Test it with the Lorem upsuj
 #"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
