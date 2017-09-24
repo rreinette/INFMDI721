@@ -24,10 +24,15 @@
 # So donuts(5) returns 'Number of donuts: 5'
 # and donuts(23) returns 'Number of donuts: many'
 def donuts(count):
-  str_count  =  str(count)
-  if count >= 10:
-      str_count = 'many'
-  return 'Number of donuts: ' + str_count
+  # +++your code here+++
+  # LAB(begin solution)
+  if count < 10:
+    return 'Number of donuts: ' + str(count)
+  else:
+    return 'Number of donuts: many'
+  # LAB(replace solution)
+  # return
+  # LAB(end solution)
 
 
 # B. both_ends
@@ -36,9 +41,16 @@ def donuts(count):
 # so 'spring' yields 'spng'. However, if the string length
 # is less than 2, return instead the empty string.
 def both_ends(s):
+  # +++your code here+++
+  # LAB(begin solution)
   if len(s) < 2:
-      return ''
-  return s[:2] + s[-2:]
+    return ''
+  first2 = s[0:2]
+  last2 = s[-2:]
+  return first2 + last2
+  # LAB(replace solution)
+  # return
+  # LAB(end solution)
 
 
 # C. fix_start
@@ -51,7 +63,15 @@ def both_ends(s):
 # Hint: s.replace(stra, strb) returns a version of string s
 # where all instances of stra have been replaced by strb.
 def fix_start(s):
-  return s[0] + s[1:].replace(s[0], '*')
+  # +++your code here+++
+  # LAB(begin solution)
+  front = s[0]
+  back = s[1:]
+  fixed_back = back.replace(front, '*')
+  return front + fixed_back
+  # LAB(replace solution)
+  # return
+  # LAB(end solution)
 
 
 # D. MixUp
@@ -62,7 +82,14 @@ def fix_start(s):
 #   'dog', 'dinner' -> 'dig donner'
 # Assume a and b are length 2 or more.
 def mix_up(a, b):
-  return b[:2] + a[2:] + ' ' + a[:2] + b[2:]
+  # +++your code here+++
+  # LAB(begin solution)
+  a_swapped = b[:2] + a[2:]
+  b_swapped = a[:2] + b[2:]
+  return a_swapped + ' ' + b_swapped
+  # LAB(replace solution)
+  # return
+  # LAB(end solution)
 
 
 # Provided simple test() function used in main() to print

@@ -3,99 +3,79 @@ import unittest
 
 # Given a string and a non-negative int n, return a larger string
 # that is n copies of the original string.
-
 def string_times(string, n):
-    return n*string
+    return string*n
 
 # Given an array of ints, return True if one of the first 4 elements
 # in the array is a 9. The array length may be less than 4.
 def array_front9(nums):
-    if len(nums)<4:
-        if 9 in nums:
-            return True
-    else :
-        if 9 in nums[0:3]:
-            return True
-    return False
+    #longueur=min(len(nums) & 4)
+    if 9 in nums[:4]:
+        return True
+    else:
+        return False
 
 
 # Given a string, return the count of the number of times
 # that a substring length 2 appears  in the string and also as
 # the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
 def last2(string):
-    if len(string) < 2:
-        return string
-    pattern = string[-2:]
+    ind = 2
     count = 0
-    for i in range (0, len(string) - 3):
-        if string [i:i+2] == pattern:
+    while ind <= len(string):
+        if string[:ind] in string[ind:]:
             count += 1
+        ind += 1
     return count
 
 
 #Write a program that maps a list of words into a list of
 #integers representing the lengths of the correponding words.
 def length_words(array):
-    #utiliser la fonction map, en fait
-    return list(map ( lambda x : (len(x)), array))
-    # dico = {}
-    # for a in array:
-    #     dico[a] = len(a)
-    # return dico
+    return map(lambda x: x.length, array) # parralelisable pas comme un for !
 
 #write fizbuzz programm
 def fizbuzz():
-    maxInt = 20
-    string = ""
-    for i in range (1, maxInt):
-        if i%3 == 0 and i%5 == 0:
-            string += 'fizbuzz'
-        else:
-            if i%3 == 0:
-                string += 'fiz'
-            else:
-                if i%5 == 0:
-                    string += 'buzz'
-                else:
-                    string += str(i)
-    return string
+    fiz = ('Fizz'*(i%3<1)+'Buzz'*(i%5<1) or i for i in range(1,101))
+    print(fiz)
+    return fiz
 
 #Write a function that takes a number and returns a list of its digits.
 def number2digits(number):
-  return [int(x) for x in str(number)]
+    ma_liste = list()
+    for n in str(number):
+        ma_liste.append(n)
+    return ma_liste
 
 #Write function that translates a text to Pig Latin and back.
 #English is translated to Pig Latin by taking the first letter of every word,
 #moving it to the end of the word and adding 'ay'
 def pigLatin(text):
-    # utiliser qqch comme ca : ' '.join ([x[1:]+x[0]+'ay' for x in text.split(' ')])
-    string = ""
-    count = 1
-    for wd in text.lower().split(" "):
-        if count == 1:
-            string = wd[1:].capitalize() + wd[0] + "ay "
-        else :
-            string = string + wd[1:] + wd[0] + "ay "
-        count += 1
-    return string[:-1] # to remove the last space
-
+#    words = text.split()
+#    text2 = ""
+#    for w in words:
+#        text2 += w[1:] + w[0] + "ay"
+#    return text2
+    return ' '.join([ x[1:] + x[0] + 'ay' for x in text.split(' ')]).capitalize()
+    
+    
 #Write a proramm that returna dictionary of occurences of the alphabet for a given string.
 # Test it with the Lorem upsuj
 #"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 def occurences(text):
-    # result ={}
-    # [result[i] += 1 if i in result else result[i] = 1 for i in text]
-    dico = {}
-    for a in text:
-        if a not in dico:
-            dico[a] = 1
-        else:
-            dico[a] += 1
-    return dico
+    dictionary = {}
+    words = text.split()
+    for w in words:
+        for c in w:
+            if c in dictionary:
+                dictionary[c] += 1
+            else:
+                dictionary[c] = 1
+    return dictionary
 
 # Here's our "unit tests".
 class Lesson1Tests(unittest.TestCase):
-    print(fizbuzz())
+    fizbuzz()
     def testArrayFront9(self):
         self.assertEqual(array_front9([1, 2, 9, 3, 4]) , True)
         self.assertEqual(array_front9([1, 2, 3, 4, 9]) , False)

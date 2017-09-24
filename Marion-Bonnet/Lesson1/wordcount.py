@@ -46,46 +46,35 @@ import sys
 # Then print_words() and print_top() can just call the utility function.
 
 ###
-def sort_by_count(item):
-    return -item[1]
 
-def sort_by_word(item):
-    return item[0]
-
-def counter(filename, stop, sort_mode):
-    """implements a print_words(filename) function that counts
-        how often each word appears in the text and prints:
-        word1 count1
-        word2 count2
-    """
-    f = open(filename, 'rU')
-    words = f.read().lower().split()
-    f.close()
-    
-    dic = {}
-    for w in words:
-        if w in dic:
-            dic[w] += 1
-        else:
-            dic[w] = 1
-            
-    if stop == 0:
-        stop = len(dic)
-    cpt = 0
-    for k, v in sorted(dic.items(), key=sort_mode):
-        cpt = cpt + 1
-        print k, v
-        if cpt > stop:
-            break
-
-def print_words(filename):
-    counter(filename, 0, sort_by_word)
-
-def print_top(filename):
-    counter(filename, 20, sort_by_count)
-        
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
+def word_count_dictionary (filename):
+    word_count_dictionary = {}
+    file = open(filename,'r')
+    for line in file:
+        words = line.split()
+        for word in words:
+            word = word.lower()
+            word_count_dictionary[word]=1
+            if word in word_count_dictionary:
+                word_count_dictionary[word] = word_count_dictionary[word] + 1
+    file.close()
+    return word_count_dictionary
+            
+    
+def print_word(filename):
+    word_count = word_count_dictionary(filename)
+    for word in words:
+        return sorted(word, key=word_count), word_count[word]
+
+
+def print_top(filename):
+    
+    
+    
+    
+    
 def main():
   if len(sys.argv) != 3:
     print 'usage: ./wordcount.py {--count | --topcount} file'

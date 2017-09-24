@@ -45,45 +45,54 @@ import sys
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
 
-###
-def sort_by_count(item):
-    return -item[1]
+#### LAB(begin solution)
 
-def sort_by_word(item):
-    return item[0]
+def word_count_dict(filename):
+  """Returns a word/count dict for this filename."""
+  # Utility used by count() and Topcount().
+  word_count = {}  # Map each word to its count
+  input_file = open(filename, 'r')
+  for line in input_file:
+    words = line.split()
+    for word in words:
+      word = word.lower()
+      # Special case if we're seeing this word for the first time.
+      if not word in word_count:
+        word_count[word] = 1
+      else:
+        word_count[word] = word_count[word] + 1
+  input_file.close()  # Not strictly required, but good form.
+  return word_count
 
-def counter(filename, stop, sort_mode):
-    """implements a print_words(filename) function that counts
-        how often each word appears in the text and prints:
-        word1 count1
-        word2 count2
-    """
-    f = open(filename, 'rU')
-    words = f.read().lower().split()
-    f.close()
-    
-    dic = {}
-    for w in words:
-        if w in dic:
-            dic[w] += 1
-        else:
-            dic[w] = 1
-            
-    if stop == 0:
-        stop = len(dic)
-    cpt = 0
-    for k, v in sorted(dic.items(), key=sort_mode):
-        cpt = cpt + 1
-        print k, v
-        if cpt > stop:
-            break
 
 def print_words(filename):
-    counter(filename, 0, sort_by_word)
+  """Prints one per line '<word> <count>' sorted by word for the given file."""
+  word_count = word_count_dict(filename)
+  words = sorted(word_count.keys())
+  for word in words:
+    print word, word_count[word]
+
+
+def get_count(word_count_tuple):
+  """Returns the count from a dict word/count tuple  -- used for custom sort."""
+  return word_count_tuple[1]
+
 
 def print_top(filename):
-    counter(filename, 20, sort_by_count)
-        
+  """Prints the top count listing for the given file."""
+  word_count = word_count_dict(filename)
+
+  # Each item is a (word, count) tuple.
+  # Sort them so the big counts are first using key=get_count() to extract count.
+  items = sorted(word_count.items(), key=get_count, reverse=True)
+
+  # Print the first 20
+  for item in items[:20]:
+    print item[0], item[1]
+
+##### LAB(end solution)
+
+
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 def main():
