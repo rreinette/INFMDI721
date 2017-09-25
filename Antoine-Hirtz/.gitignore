@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 
@@ -133,3 +134,6 @@ Fremont.csv
 
 # Mac built-in
 .DS_Store
+=======
+.DS_Store
+>>>>>>> e9b7bf903536dcca02d223cf6dc2508e3c16b393
