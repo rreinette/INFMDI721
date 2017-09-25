@@ -1,61 +1,33 @@
 import requests
+import re
 from bs4 import BeautifulSoup
 
 
-url = 'http://www.purepeople.com/article/caroline-de-maigret-ce-jour-ou-yarol-poupaud-a-quitte-sa-copine-pour-elle_a251827/1'
-share_class_pp = "c-sharebox__stats-number"
-
-def getSoupFromURL(url, method='get', data={}):
-
-  if method == 'get':
-    res = requests.get(url)
-  elif method == 'post':
-    res = requests.post(url, data=data)
-  else:
-    return None
-
-  if res.status_code == 200:
+def get_soup_from_url(my_url, my_class):
+    res = requests.get(my_url)
     soup = BeautifulSoup(res.text, 'html.parser')
-    return soup
-  else:
-    return None
-
-def getNumberOfSharesForPage(url, classname):
-  soup = getSoupFromURL(url)
-  if soup:
-
-    share_content = soup.find_all(class_=classname)[0].text.strip()
-    if 'K' in share_content:
-      #remove the K at the end with -1
-      parts = share_content[:-1].split(',')
-      return int(parts[0])*1000 + int(parts[1])*100
-    else:
-      return int(share_content)
-  else:
-    0
-
-def getListOfArticlesForPeople(people):
-  #url_search = "http://www.purepeople.com/rechercher/"
-  #params = {"q": people}
-  #results_search  = getSoupFromURL(url_search, 'post', params)
-
-  url_search = "http://www.purepeople.com/rechercher/q/" + people + "/cat/article/np/"
-  class_result = "c-article-flux__title"
-  results_search = []
-  for i in range(1,2):
-    soup_results_search  = getSoupFromURL(url_search+str(i))
-    results_search += [a['href'] for a in soup_results_search.find_all("a", class_=class_result)]
-  return results_search
+    res = soup.find_all(class_=my_class)
+    euros_hab = [int(val.parent.select_one("td:nth-of-type(2)").text.replace('\xa0', '').replace(' ', '')) for val in res if re.search('= [ABCD]\Z', val.text)]
+    # print("euros_hab : " + str(euros_hab))
+    moyenne_strate = [int(val.parent.select_one("td:nth-of-type(3)").text.replace('\xa0', '').replace(' ', '')) for val in res if re.search('= [ABCD]\Z', val.text)]
+    # print("moyenne_strate : " + str(moyenne_strate))
+    return euros_hab, moyenne_strate
 
 
-#all_pages_people_1 = getListOfArticlesForPeople('johnny')
-all_pages_people_2 = getListOfArticlesForPeople('angelina')
 
-#shares_people_1 = []
-shares_people_2 = []
-for page in all_pages_people_2:
-  print '-----'
-  print page
-  share = getNumberOfSharesForPage("http://www.purepeople.com" + page, share_class_pp)
-  print share
-  shares_people_2.append(share)
+
+
+def comptes_paris(start, end):
+    dic_euros_hab = {}
+    dic_moyenne_strate = {}
+    for year in range(start, end):
+        url = 'http://alize2.finances.gouv.fr/communes/eneuro/detail.php?icom=056&dep=075&type=BPS&param=5&exercice=' + str(year)
+        class_name = 'libellepetit G'
+        euros_hab, moyenne_strate = get_soup_from_url(url, class_name)
+        dic_euros_hab[year] = euros_hab
+        dic_moyenne_strate[year] = moyenne_strate
+    print("Euros par habitant de " + str(start) + " a " + str(end) + " : \n" + str(dic_euros_hab))
+    print("Moyenne de la strate de " + str(start) + " a " + str(end) + " : \n" + str(dic_moyenne_strate))
+
+
+comptes_paris(2010, 2016)
