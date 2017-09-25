@@ -11,6 +11,11 @@ from bs4 import BeautifulSoup
 import requests
 import re
 import numpy as np
+import pandas as pd
+
+A = np.random.randint(0, 10, size=36).reshape(6, 6)
+names = [_ for _ in 'abcdef']
+df = pd.DataFrame(A, index=names, columns=names)
 
 #def GetElement(text, )
 #
@@ -25,8 +30,10 @@ def getData(year):
     for url in urllist:
         a[i]=GetElement2(url)
         i+=1
-    print('la matrice résultat est', a)
-    return a    
+    nameCol=["A", "A1", "B", "B1","C", "C1", "D", "D1"]
+    df=pd.DataFrame(a, index=Year, columns=nameCol)
+    
+    return df    
     
 def GetElement(url):
     montant=np.array([0,0,0,0])
@@ -56,7 +63,6 @@ def GetElement2(url):
         montant[i+2]=int(ResulTableB[i+1].text.replace(' ',''))
         montant[i+4]=int(ResulTableC[i+1].text.replace(' ',''))
         montant[i+6]=int(ResulTableD[i+1].text.replace(' ',''))
-    print(montant)
     return montant
 #    montant[0] = int (soup.find("td", text="TOTAL DES PRODUITS DE FONCTIONNEMENT = A").parent.find_all(class_ = "montantpetit G")[1].text.replace(' ',''))
 #    montant[0] = int (soup.find("td", text="TOTAL DES CHARGES DE FONCTIONNEMENT = B").parent.find_all(class_ = "montantpetit G")[1].text.replace(' ',''))
@@ -69,16 +75,22 @@ def GetElement2(url):
 #    print(Inter)    
 
     
+#Year=[2010,2011,2012,2013,2014,2015]
+#print("Par defaut annes de 2010 à 2015 :\n" ,getData(Year))
+
     
-    
-def test()   :
-    
+def main(Year=[])   :    
+#    if len(Year)>0:
+#        print(getData(Year))
+#    else:
     Year=[2010,2011,2012,2013,2014,2015]
-    getData(Year)
+    print("Par defaut années de 2010 à 2015 :\n" ,getData(Year))
 
+#Year = eval(input("Entrez la liste des années: "))        
+main()
 
-GetElement2("http://alize2.finances.gouv.fr/communes/eneuro/detail.php?icom=056&dep=075&type=BPS&param=5&exercice=2013")
-test()
+#GetElement2("http://alize2.finances.gouv.fr/communes/eneuro/detail.php?icom=056&dep=075&type=BPS&param=5&exercice=2013")
+#test()
 #test()
     
 
