@@ -33,20 +33,19 @@ def front_x(words):
   """Given a list of strings, returns a list with the strings in sorted order,
   except group all the strings that begin with 'x' first.
   e.g. ['mix', 'xyz', 'apple', 'xanadu', 'aardvark'] yields ['xanadu', 'xyz', 'aardvark', 'apple', 'mix']"""
-  sorted_list = [] 
+  sorted_list = []
   try:
     x_list = [w for w in words if w.startswith('x')]
     others_list = [w for w in words if w not in x_list]
     x_list.sort()
     others_list.sort()
-    sorted_list = x_list + others_list 
+    sorted_list = x_list + others_list
   except ValueError:
     pass
   finally:
     return sorted_list
 
 # C. sort_last
-
 def sort_last(tuples):
   """Given a list of non-empty tuples, returns a list sorted in increasing order by the last element in each tuple.
   e.g. [(1, 7), (1, 3), (3, 4, 5), (2, 2)] yields [(2, 2), (1, 3), (3, 4, 5), (1, 7)]"""
@@ -64,7 +63,6 @@ def test(got, expected):
     prefix = '  X '
   print('%s got: %s expected: %s' % (prefix, repr(got), repr(expected)))
 
-
 # Calls the above functions with interesting inputs.
 def main():
   print('match_ends')
@@ -72,7 +70,6 @@ def main():
   test(match_ends(['', 'x', 'xy', 'xyx', 'xx']), 2)
   test(match_ends(['aaa', 'be', 'abc', 'hello']), 1)
 
-  print()
   print('front_x')
   test(front_x(['bbb', 'ccc', 'axx', 'xzz', 'xaa']),
        ['xaa', 'xzz', 'axx', 'bbb', 'ccc'])
@@ -81,8 +78,6 @@ def main():
   test(front_x(['mix', 'xyz', 'apple', 'xanadu', 'aardvark']),
        ['xanadu', 'xyz', 'aardvark', 'apple', 'mix'])
 
-       
-  print()
   print('sort_last')
   test(sort_last([(1, 3), (3, 2), (2, 1)]),
        [(2, 1), (3, 2), (1, 3)])
@@ -90,7 +85,6 @@ def main():
        [(3, 1), (1, 2), (2, 3)])
   test(sort_last([(1, 7), (1, 3), (3, 4, 5), (2, 2)]),
        [(2, 2), (1, 3), (3, 4, 5), (1, 7)])
-
 
 if __name__ == '__main__':
   main()
