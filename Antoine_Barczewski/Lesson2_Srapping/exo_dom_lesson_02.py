@@ -7,6 +7,13 @@ def getMetrics(df,strates,metrics,columnsName_Strate):
     sep = '|'
     sel = sep.join(strates)
     df = df.ix[df.Strate.str.contains('=\s('+sel+')$'),metrics+[columnsName_Strate]]
+    metrics_series = pd.Series(metrics)
+    if not metrics_series.str.contains('Euros').empty:
+        for euroName in metrics_series[metrics_series.str.contains('Euros')]:
+            df[euroName] = df[euroName].apply(lambda x: int(str(x).replace(' ','')))
+    if not metrics_series.str.contains('milliers').empty:
+        for milliersName in metrics_series[metrics_series.str.contains('milliers')]:
+            df[milliersName] = df[milliersName]*1000
     return df
 
 url = 'http://alize2.finances.gouv.fr/communes/eneuro/detail.php?icom=056&dep=075&type=BPS&param=5&exercice=' #note that year has been removed from url parameter
