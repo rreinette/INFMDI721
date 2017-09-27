@@ -14,7 +14,7 @@ def string_times(string, n):
 # Given an array of ints, return True if one of the first 4 elements
 # in the array is a 9. The array length may be less than 4.
 def array_front9(nums):
-    longueur = min(len(nums) & 4)
+    longueur = min(len(nums), 4)
     for i in range(longueur):
         if nums[i] == 9:
             return True
@@ -25,7 +25,8 @@ def array_front9(nums):
 # that a substring length 2 appears  in the string and also as
 # the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
 def last2(string):
-    return
+    result = [1 for i in range(len(string) - 4) if string[i:i+2] == string[-2:]]
+    return len(result)
 
 
 # Write a program that maps a list of words into a list of
@@ -37,8 +38,9 @@ def length_words(array):
 
 # write fizbuzz programm
 def fizbuzz():
-    result = []
-    for i in range(10):
+    result = [(i % 3 == 0) * "fizz" + (i % 5 == 0) * "buzz" or i for i in range (100)]
+    for element in result:
+        print(element)
         
     return
 
@@ -61,22 +63,31 @@ def pigLatin(text):
     for word in words:
         first_letter = word[0]
         word = word[1:]
-        word += "ay"
+        word += first_letter + "ay"
         result += word + " "
-    result = result[0].upper() + result[1:]
-    return result[:-1]
+    return result[:-1].capitalize()
 
 
 # Write a proramm that returna dictionary of occurences of the alphabet for a given string.
 # Test it with the Lorem upsuj
 # "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 def occurences(text):
-    return
+    dict = {}
+    for caracter in text:
+        if caracter not in dict:
+            dict[caracter] = 0
+        dict[caracter] += 1
+    sorted_keys = sorted(dict.keys(), key = lambda key: dict[key], reverse=True)
+    for key in sorted_keys:
+        print("%s -> %d" % (key, dict[key]))
+    return dict
 
 
 # Here's our "unit tests".
 class Lesson1Tests(unittest.TestCase):
     fizbuzz()
+    occurences("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
 
     def testArrayFront9(self):
         self.assertEqual(array_front9([1, 2, 9, 3, 4]), True)
