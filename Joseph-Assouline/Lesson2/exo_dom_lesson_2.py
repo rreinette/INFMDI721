@@ -12,13 +12,10 @@ import requests
 import re
 import numpy as np
 import pandas as pd
+import unittest
 
-A = np.random.randint(0, 10, size=36).reshape(6, 6)
-names = [_ for _ in 'abcdef']
-df = pd.DataFrame(A, index=names, columns=names)
 
-#def GetElement(text, )
-#
+
 
 def getData(year):
     year.sort()
@@ -31,8 +28,7 @@ def getData(year):
         a[i]=GetElement2(url)
         i+=1
     nameCol=["A", "A1", "B", "B1","C", "C1", "D", "D1"]
-    df=pd.DataFrame(a, index=Year, columns=nameCol)
-    
+    df=pd.DataFrame(a, index=year, columns=nameCol)
     return df    
     
 def GetElement(url):
@@ -79,19 +75,50 @@ def GetElement2(url):
 #print("Par defaut annes de 2010 à 2015 :\n" ,getData(Year))
 
     
-def main(Year=[])   :    
+#def main()   :    
 #    if len(Year)>0:
 #        print(getData(Year))
 #    else:
-    Year=[2010,2011,2012,2013,2014,2015]
-    print("Par defaut années de 2010 à 2015 :\n" ,getData(Year))
+#    Year=[2010,2011,2012,2013,2014,2015]
+#    print("Par defaut années de 2010 à 2015 :\n" ,getData(Year))
 
 #Year = eval(input("Entrez la liste des années: "))        
-main()
+#main()
 
 #GetElement2("http://alize2.finances.gouv.fr/communes/eneuro/detail.php?icom=056&dep=075&type=BPS&param=5&exercice=2013")
 #test()
 #test()
-    
 
+class Lesson1Tests(unittest.TestCase):
+    
+    
+    a= np.array([[2449, 2449, 2241, 2241, 1119, 1119, 1265, 1265], [2546,2546,2327,2327, 1264,1264, 1268, 1268],
+        [2311, 2311, 2135, 2135, 1085, 1085, 1058, 1058], [2308, 2308, 2235, 2235, 1157, 1157, 1048, 1048],
+        [2365, 2365, 2294, 2294, 1066, 1066, 1048, 1048], [2322, 2322, 2354, 2354, 914, 914, 788, 788]])
+    nameCol=["A", "A1", "B", "B1","C", "C1", "D", "D1"]
+    Year=[2010,2011,2012,2013,2014,2015]
+    df=pd.DataFrame(a, index=Year, columns=nameCol)
+    print(df)
+    
+    def testgetData(self):
+        Year=[2010,2011,2012,2013,2014,2015]
+        self.assertEqual(getData(Year), df)
+        
+    def clear_all():
+    #Clears all the variables from the workspace of the spyder application
+        gl = globals().copy()
+        for var in gl:
+            if var[0] == '_': continue
+            if 'func' in str(globals()[var]): continue
+            if 'module' in str(globals()[var]): continue
+        del globals()[var]
+
+
+
+    def main():
+        unittest.main()
+
+    if __name__ == '__main__':
+        clear_all()
+        main()
 #GetElement("http://alize2.finances.gouv.fr/communes/eneuro/detail.php?icom=056&dep=075&type=BPS&param=5&exercice=2015")   
