@@ -6,6 +6,7 @@ import unittest
 def string_times(string, n):
     return string*n
 
+
 # Given an array of ints, return True if one of the first 4 elements
 # in the array is a 9. The array length may be less than 4.
 def array_front9(nums):
@@ -20,42 +21,37 @@ def array_front9(nums):
 # that a substring length 2 appears  in the string and also as
 # the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
 def last2(string):
-    ind = 2
-    count = 0
-    while ind <= len(string):
-        if string[:ind] in string[ind:]:
-            count += 1
-        ind += 1
-    return count
+    if len(string) < 2:
+        return 0
+    else:
+        pattern = string[-2:]
+        count = 0
+        for i in range(0, len(string) - 3):
+            if string[i:i+2] == pattern:
+                count += 1
+        return count
 
 
 #Write a program that maps a list of words into a list of
 #integers representing the lengths of the correponding words.
 def length_words(array):
-    return map(lambda x: x.length, array) # parralelisable pas comme un for !
+    return list(map(lambda x: len(x), array))# parralelisable pas comme un for !
+
 
 #write fizbuzz programm
 def fizbuzz():
-    fiz = ('Fizz'*(i%3<1)+'Buzz'*(i%5<1) or i for i in range(1,101))
-    print(fiz)
-    return fiz
+    return ('Fizz'*(i%3<1)+'Buzz'*(i%5<1) or i for i in range(1,101))
+
 
 #Write a function that takes a number and returns a list of its digits.
 def number2digits(number):
-    ma_liste = list()
-    for n in str(number):
-        ma_liste.append(n)
-    return ma_liste
+    return [int(x) for x in str(number)]
+
 
 #Write function that translates a text to Pig Latin and back.
 #English is translated to Pig Latin by taking the first letter of every word,
 #moving it to the end of the word and adding 'ay'
 def pigLatin(text):
-#    words = text.split()
-#    text2 = ""
-#    for w in words:
-#        text2 += w[1:] + w[0] + "ay"
-#    return text2
     return ' '.join([ x[1:] + x[0] + 'ay' for x in text.split(' ')]).capitalize()
     
     
@@ -72,6 +68,7 @@ def occurences(text):
             else:
                 dictionary[c] = 1
     return dictionary
+
 
 # Here's our "unit tests".
 class Lesson1Tests(unittest.TestCase):
@@ -103,9 +100,9 @@ class Lesson1Tests(unittest.TestCase):
         self.assertEqual(pigLatin("The quick brown fox") , "Hetay uickqay rownbay oxfay")
 
 
-
 def main():
     unittest.main()
+
 
 if __name__ == '__main__':
     main()

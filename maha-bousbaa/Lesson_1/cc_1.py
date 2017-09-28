@@ -5,76 +5,77 @@ import unittest
 # that is n copies of the original string.
 
 def string_times(string, n):
-    result = ""
-    for i in range(n):
-        result += string
-    return result
 
+    return n * string
 
 # Given an array of ints, return True if one of the first 4 elements
 # in the array is a 9. The array length may be less than 4.
+
+
 def array_front9(nums):
-    longueur = min(len(nums) & 4)
-    for i in range(longueur):
+    #longueur=min(len(nums) & 4)
+    i = 0
+    while i < len(nums):
         if nums[i] == 9:
             return True
+        else:
+            i = i + 1
     return False
 
 
 # Given a string, return the count of the number of times
 # that a substring length 2 appears  in the string and also as
 # the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
+
 def last2(string):
-    return
+    substr = string[-2:]
+    i = 0
+    count = 0
+    while i < len(string):
+        if string[i:i + 2] == substr:
+            count = count + 1
+        
+        i=i + 1
+
+    return count - 1
 
 
 # Write a program that maps a list of words into a list of
 # integers representing the lengths of the correponding words.
 def length_words(array):
-    lengths = list(map(lambda word: len(word), array))
-    return lengths
-
+    return map(array, lambda x:x.length)
 
 # write fizbuzz programm
+
+
 def fizbuzz():
-    result = []
-    for i in range(10):
-        
     return
 
-
 # Write a function that takes a number and returns a list of its digits.
-def number2digits(number):
-    string_number = str(number)
-    digits = []
-    for char in string_number:
-        digits.append(int(char))
-    return digits
 
+
+def number2digits(number):
+
+    return
 
 # Write function that translates a text to Pig Latin and back.
 # English is translated to Pig Latin by taking the first letter of every word,
 # moving it to the end of the word and adding 'ay'
+
+
 def pigLatin(text):
-    words = text.split()
-    result = ""
-    for word in words:
-        first_letter = word[0]
-        word = word[1:]
-        word += "ay"
-        result += word + " "
-    result = result[0].upper() + result[1:]
-    return result[:-1]
+    return ''.join([x[1:] + x[0] for x in text.split()]).capitalize()
 
 
 # Write a proramm that returna dictionary of occurences of the alphabet for a given string.
 # Test it with the Lorem upsuj
-# "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+#"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 def occurences(text):
     return
 
-
 # Here's our "unit tests".
+
+
 class Lesson1Tests(unittest.TestCase):
     fizbuzz()
 
@@ -95,8 +96,8 @@ class Lesson1Tests(unittest.TestCase):
 
     def testLengthWord(self):
         self.assertEqual(length_words(['hello', 'toto']), [5, 4])
-        self.assertEqual(length_words(['s', 'ss', '59fk', 'flkj3']),
-                         [1, 2, 4, 5])
+        self.assertEqual(length_words(
+            ['s', 'ss', '59fk', 'flkj3']), [1, 2, 4, 5])
 
     def testNumber2Digits(self):
         self.assertEqual(number2digits(8849), [8, 8, 4, 9])

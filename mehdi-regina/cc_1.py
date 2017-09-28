@@ -6,12 +6,14 @@ Created on Fri Sep 22 13:39:07 2017
 @author: mehdiregina
 """
 import unittest
+import string
 
 
 # Given a string and a non-negative int n, return a larger string
 # that is n copies of the original string.
 
 def string_times(string, n):
+    #se rappeler qu'on peut multiplier un str
     return n*string 
 
 # Given an array of ints, return True if one of the first 4 elements
@@ -19,10 +21,10 @@ def string_times(string, n):
 def array_front9(nums):
     #longueur=min(len(nums) & 4)
     test=False 
-    longueur=min(len(nums),4)
-    for i in range(0,longueur-1) :
+    for i in range(0,min(len(nums),4)-1) :
         if(nums[i]==4):
             test=True
+            
     return test
 
 
@@ -35,7 +37,6 @@ def last2(string):
     #je prends des 2 derniers à la fin
     substring=string[-2:]
     count=0
-    
     for i in range(0,len(string)-3):
         if(string[i:i+2]==substring):
             count+=1
@@ -46,22 +47,32 @@ def last2(string):
 #integers representing the lengths of the correponding words.
 def length_words(array):
      # ! ou voir fonction map : Apply function to every item of iterable and return a list of the results !
-     liste=list()
-     for mot in array:
-         liste.append(len(mot))
-     return liste
+     
+     #meth1 list comprehension
+     liste1=[len(mot) for mot in array]
+     
+     #meth2 map function (définir une fonction via lambda, préciser l'élément à itérer)
+     liste2=list(map(lambda mot:len(mot),array))
+     
+     return liste2
 
 #write fizbuzz programm
 def fizbuzz():
-    return
+    #bien comprendre la structure d'une boucle conditionnelle
+   for i in range(0,100):
+       if(i%3==0 and i%5==0):
+           print("fizzbuzz")
+       elif(i%5==0):
+           print("buzz")
+       elif(i%3==0):
+           print("fizz")
+       else:
+           print(i)
+                   
 
 #Write a function that takes a number and returns a list of its digits.
-def number2digits(number):
-    liste_digit=list()
-    for digit in str(number):
-        liste_digit.append(int(digit))
-        
-    return liste_digit
+def number2digits(number):      
+    return [int(digit) for digit in str(number)]
 
 #Write function that translates a text to Pig Latin and back.
 #English is translated to Pig Latin by taking the first letter of every word,
@@ -77,7 +88,15 @@ def pigLatin(text):
 # Test it with the Lorem upsuj
 #"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 def occurences(text):
-  return
+    dico_lettre=dict((lettre,0) for lettre in list(string.ascii_lowercase))
+    #je supprime les espaces dans le texte via ces transformations
+    for lettre in "".join(text.lower().split()):
+        try:
+            dico_lettre[lettre]+=1
+        except(KeyError):
+            #s'il y a une erreur de clé ce n'est pas une lettre de l'alphabet donc je l'ignore via pass !
+            pass
+        return dico_lettre
 
 # Here's our "unit tests".
 class Lesson1Tests(unittest.TestCase):

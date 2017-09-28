@@ -30,7 +30,7 @@ def getCategoryFigures(table, category_name, year):
 if __name__ == "__main__":
     tableau = {}
     url = "http://alize2.finances.gouv.fr/communes/eneuro/tableau.php"
-    years = list(range(2009, 2014))
+    years = list(range(2009, 2016))
     categories = ['A', 'B', 'C', 'D']
     params = {'ICOM': '056', 'DEP': '075', 'TYPE': 'BPS',
               'PARAM': 0, 'comm': 0}
