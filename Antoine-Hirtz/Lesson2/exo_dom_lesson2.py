@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Sep 25 19:18:55 2017
-@author: Maria Mokbel
-"""
-
 import requests
 from bs4 import BeautifulSoup
 
