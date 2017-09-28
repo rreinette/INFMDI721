@@ -13,19 +13,15 @@ for year in years:
     url = "http://alize2.finances.gouv.fr/communes/eneuro/tableau.php?icom=" + icom \
           + "&dep=075&type=BPS&param=0&exercice=" + str(year)
 
-
     with urllib.request.urlopen(url) as my_html:
         my_soup = BeautifulSoup(my_html, 'html.parser')
-
-    td_tag_search = my_soup.find_all("td", class_="libellepetit")
-
-    all_td_labels = [td.text.strip() for td in td_tag_search]
 
     value_per_capita = []
 
     for label in labels:
-        # search for label index in file
-        value_per_capita.append(int("".join(td_tag_search[all_td_labels.index(label)].find_next_sibling().find_next_sibling().text.split())))
+        tag_of_interest = my_soup.find("td", string=label).parent.select('td:nth-of-type(3)')[0]
+        value_per_capita.append(int("".join(tag_of_interest.text.split())))
+
     value_per_capita_per_year.append(value_per_capita)
 
 print(value_per_capita_per_year)
