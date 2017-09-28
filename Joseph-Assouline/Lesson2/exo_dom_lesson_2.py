@@ -15,6 +15,8 @@ import pandas as pd
 import unittest
 
 
+
+
 def getData(year):
     year.sort()
     a=np.arange((year[-1]-year[0]+1)*8).reshape(year[-1]-year[0]+1,8)
@@ -102,6 +104,14 @@ class Lesson1Tests(unittest.TestCase):
         Year=[2010,2011,2012,2013,2014,2015]
         self.assertEqual(getData(Year), df)
         
+    def clear_all():
+    #Clears all the variables from the workspace of the spyder application
+        gl = globals().copy()
+        for var in gl:
+            if var[0] == '_': continue
+            if 'func' in str(globals()[var]): continue
+            if 'module' in str(globals()[var]): continue
+        del globals()[var]
 
 
 
@@ -109,7 +119,6 @@ class Lesson1Tests(unittest.TestCase):
         unittest.main()
 
     if __name__ == '__main__':
+        clear_all()
         main()
-
-
 #GetElement("http://alize2.finances.gouv.fr/communes/eneuro/detail.php?icom=056&dep=075&type=BPS&param=5&exercice=2015")   
