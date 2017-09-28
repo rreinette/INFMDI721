@@ -1,39 +1,37 @@
+import urllib.request
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
 
-### Retait des données par web
+url = 'http://alize2.finances.gouv.fr/communes/eneuro/detail.php?icom=056&dep=075&type=BPS&param=5&exercice='
+years = ['2010','2011','2012','2013','2014','2015']
 
-years = ['2010', '2011', '2012', '2013', '2014', '2015']
-
-
-def getSoupFromURL(url, method='get', data={}):
+def getSoupFromUrl(url, method='get', data={}):
     if method == 'get':
-        res = requests.get(url)
-    elif method == 'post':
-        res = requests.post(url, data=data)
+        res = request.get(url)
+    elif method =="post":
+        res = request.post(url, data=data)
     else:
         return None
 
     if res.status_code == 200:
-        soup = BeautifulSoup(res.text, 'html.parser')
+        soup = BeautifulSoup(res.text, 'html.parser');
         return soup
     else:
         return None
 
+def soup_year(year):
+    url_year = url + year
+    classname = 'montantpetit G'
+    soup = getSoupFromUrl(url_year)
 
-def get_soup_year(year):
-    url_search = 'http://alize2.finances.gouv.fr/communes/eneuro/detail.php?icom=056&dep=075&type=BPS&param=5&exercice=' + year
-    class_results = 'montantpetit G'
+    all_content = soup.find_all(class_= classname)
 
-    soup = getSoupFromURL(url_search)
+    A = [int(content.text.strip().replace(' ', '')) for val in all_val[0:3]]
+    B = [int(content.text.strip().replace(' ', '')) for val in all_val[3:6]]
+    C = [int(content.text.strip().replace(' ', '')) for val in all_val[9:12]]
+    D = [int(content.text.strip().replace(' ', '')) for val in all_val[12:15]]
 
-    all_val = soup.find_all(class_=class_results)
 
-    A = [int(val.text.strip().replace(' ', '')) for val in all_val[0:3]]
-    B = [int(val.text.strip().replace(' ', '')) for val in all_val[3:6]]
-    C = [int(val.text.strip().replace(' ', '')) for val in all_val[9:12]]
-    D = [int(val.text.strip().replace(' ', '')) for val in all_val[12:15]]
 
     df_year = pd.DataFrame(A)
     df_year.index = ["En milliers d'euros", "Euros par habitant", "Moyenne de la strate"]
@@ -57,4 +55,4 @@ def get_soup_all():
 
     return df_
 
-print(get_soup_all())
+print(soup_year())
