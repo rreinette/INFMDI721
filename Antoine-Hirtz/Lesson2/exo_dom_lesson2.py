@@ -36,6 +36,8 @@ def scrapDataFrom(URL, classname, i):
   if soup:
     data = soup.find_all(class_=classname)
     return data[i].text.strip()
+  else:
+    return None
 
 for year in range(2010, 2016):
     url = 'http://alize2.finances.gouv.fr/communes/eneuro/detail.php?icom=056&dep=075&type=BPS&param=5&exercice=' + str(year)
