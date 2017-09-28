@@ -61,15 +61,15 @@ def get_count(filename):
         try:
             dico[mot]+=1
         except(KeyError):
-            dico[mot]=0
+            dico[mot]=1
     return dico
+
 
 def print_words(filename):
     """Renvoie la liste des mots et leur count associé au fichier"""
     dico=get_count(filename)
     #j'affiche pour chaque tuple (cle,valeur) le mot et le count
-    for mot,valeur in dico.items():
-        print(mot,valeur)
+    [print(mot,valeur) for mot,valeur in dico.items()]
         
 def print_top(filename):
     """Renvoie les 20 mots les plus communs et leur count"""
@@ -77,27 +77,27 @@ def print_top(filename):
     #necessité de trier le dictionnaire selon ses valeurs
     # => trie des tuples  (cle,valeur) selon leur valeur
     dico_sorted=sorted(dico.items(),key=lambda tuple_item:tuple_item[1],reverse=True)
-    for i in range(0,20):
-        print(dico_sorted[i])
+    [print(dico_sorted[i]) for i in range(0,20)]
         
 ###
 
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 def main():
-  if len(sys.argv) != 3:
-    print ('usage: ./wordcount.py {--count | --topcount} file')
-    sys.exit(1)
+  #if len(sys.argv) != 3:
+   # print ('usage: ./wordcount.py {--count | --topcount} file')
+  #  sys.exit(1)
 
-    option = sys.argv[1]
-    filename = sys.argv[2]
-    if (option == '--count'):
-        print_words("alice.txt")
-    elif (option == '--topcount'):
-       print_top("alice.txt")
-    else:
-       print ('unknown option: ' + option)
-       sys.exit(1)
+   # option = sys.argv[1]
+  #  filename = sys.argv[2]
+   # if (option == '--count'):
+     print_words("alice.txt")
+   # elif (option == '--topcount'):
+     print("---------")
+     print_top("alice.txt")
+   # else:
+    #   print ('unknown option: ' + option)
+     #  sys.exit(1)
 
 if __name__ == '__main__':
   main()
